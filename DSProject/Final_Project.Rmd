@@ -126,12 +126,12 @@ What state had the highest minimum wage?
 Create a histogram of state to showing the relationship between state and minimum wage
 ```{r}
 min$State.or.other...jurisdiction = factor(min$State.or.other...jurisdiction, levels = min$State.or.other...jurisdiction[order(min$X2018)])
-min_ord = ggplot(min,aes(State.or.other...jurisdiction,X2018))+geom_point()+theme(axis.text.x = element_text(angle = 90, hjust = 1))+labs(title = "State Minimum Wage in 2018", x="State", y="Minimum Wage (USD)")
+min_ord = ggplot(min,aes(State.or.other...jurisdiction,X2018))+geom_point()+theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 4))+labs(title = "State Minimum Wage in 2018", x="State", y="Minimum Wage (USD)")
 ggplotly(min_ord)
 ```
 
-Has the average tuition or average minimum wage been increasing the fastest?
-Create a scatterplot showing a linear model of year vs cost for both tuition and wage. Compare slopes.
+Is there a correlation with tuition and wage over time?
+To take a look at the coorelation, first we looked at the trend for tuition over the years. As seen below, over time, tuition increases at a steady rate.
 ```{r}
 tuition$tuition2=vector("numeric", length = 1)
 tuition$tuition2=(c('12349','12922','13639','14439','15505','16510','17451','18473','19364','20361','21126','22074','23011','23871','24701','25409','26132','26592','27357'))
@@ -144,10 +144,9 @@ tuition.order=ggplot(tuition, aes(Year.and.control.of.institution, tuition2))+
   labs(title = "Tuition by Year", x= "Year", y="Total Tuition (USD)")+ 
   theme(axis.text.x = element_text(angle = 90, size = 5))
 ggplotly(tuition.order)
-fit1 <- lm(Year.and.control.of.institution ~ tuition2, data = tuition)
-summary(fit1)
 ```
 
+Next we took a look at the trend for minimum wage over the years. As seen below, over time, tuition increases at semi-steady rate.
 ```{r}
 new=min %>% 
   gather(key= "Year", value="wage", "X2000":"X2018")
@@ -157,10 +156,13 @@ new.ord= ggplot(new, aes(Year, wage))+
   geom_boxplot()+ 
   labs(title = "Minimum Wage by Year", x= "Year", y="Minimum Wage (USD)")
 ggplotly(new.ord)
-fit2 <- lm(Year ~ wage, data = new)
-summary(fit2)
 ```
 
+Then we found the coorelation between minimum wage and tuition. First we had to create a new dataset that contained the mean wages for each year. As seen below, mimimum wage and tuition have a high positive correlation. This means that as tuition increases so does mimimum wage at a similar rate.
+```{r}
+meanwage= c(mean(min$X2000), mean(min$X2001),mean(min$X2002),mean(min$X2003),mean(min$X2004),mean(min$X2005),mean(min$X2006),mean(min$X2007),mean(min$X2008),mean(min$X2009),mean(min$X2010),mean(min$X2011),mean(min$X2012),mean(min$X2013),mean(min$X2014),mean(min$X2015),mean(min$X2016),mean(min$X2017),mean(min$X2018))
+cor(meanwage,tuition$tuition2)
+```
 
 Sources:
 https://datascience.stackexchange.com/questions/15589/remove-part-of-string-in-r
