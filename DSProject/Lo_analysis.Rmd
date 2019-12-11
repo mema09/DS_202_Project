@@ -1,0 +1,187 @@
+---
+title: "Lo_analysis"
+author: "Hannah Lo"
+date: "12/10/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(mapproj)
+library(openintro)
+library(stringr)
+library(dplyr)
+library(ggplot2)
+library(plotly)
+library(tidyverse)
+library(lubridate)
+library(stringr)
+
+cost = read.csv("costliv_lo.csv", header = T)
+min = read.csv("min_wage_clean.csv", header = T)
+tuition = read.csv("tuitioncost_constant.csv", header = T)
+convert = read.csv("uscities.csv", header = T)
+states = map_data('state')
+```
+
+## Background
+
+I am working with two datasets. The first contains cost of living information for major United States cities in 2018. It has 132 cities and two corresponding values. The first is called 'rent index' this index is relative to New York City. For New York City, all indecies are 100. For example, if another city has a rent index of 120, this means on average that cities rent is 20% more expensive than New York City. The other value is 'cost of living index' which is an indicator of consumer goods like groceries, restaurants, transportation, and utilities. It works the same as 'rent index'
+
+## Cleaning
+
+Prep work on cost_of_living data and connected it to lat and long data for mapping. 
+
+```{r,warning = FALSE}
+cost = cost[-1]
+cost = separate(cost, City, into = c("city", "state","country"), sep = ',') 
+cost = cost[-3]
+cost = separate(cost, state, into = c("delete", "state"), sep = ' ')
+cost = cost[-2]
+cost$state = abbr2state(cost$state)
+convert = convert[,c(1,4,9,10)]
+convert$state = convert$state_name
+convert = convert[-2]
+cost_map = left_join(cost,convert,by = c("city","state"))
+str(cost_map)
+```
+
+## Rent Index
+
+
+
+```{r,include=FALSE}
+# template
+g = list(
+  scope = 'north america',
+  showland = TRUE,
+  landcolor = toRGB("gray95"),
+  subunitcolor = toRGB("gray85"),
+  countrycolor = toRGB("gray85"),
+  showlakes = TRUE,
+  lakecolor = toRGB("white"),
+  showsubunits = TRUE,
+  showcountries = TRUE,
+  resolution = 50,
+  projection = list(
+    type = 'conic conformal',
+    rotation = list(lon = -100)),
+  lonaxis = list(
+    showgrid = TRUE,
+    gridwidth = 0.5,
+    range = c(-140, -55),
+    dtick = 5),
+  lataxis = list(
+    showgrid = TRUE,
+    gridwidth = 0.5,
+    range = c(20, 60),
+    dtick = 5))
+```
+
+```{r,echo=FALSE,warning = FALSE}
+# rent index map interactive
+p_int = plot_geo(cost_map, lat = ~lat, lon = ~lng) %>%
+  add_markers(text = ~paste(city, state,`Rent.Index`), color = ~`Rent.Index`, size = ~`Rent.Index`, hoverinfo = "text") %>%
+  colorbar(title = "Rent Index<br />Relative to<br />New York City<br />as 100") %>%
+  layout(title = 'Rent Index for Major US Cities 2018<br />(Hover for city)', geo = g)
+p_int
+```
+
+```{r,echo=FALSE}
+# rent index histogram interactive (distribution)
+p_hist = ggplot(cost_map,aes(`Rent.Index`))+geom_histogram(bins=50)
+ggplotly(p_hist)
+```
+
+```{r,echo=FALSE}
+# rent index scatterplot interactive
+cost_map$City = paste(cost_map$city,cost_map$state,sep=", ")
+cost_map$City = factor(cost_map$City, levels = cost_map$City[order(cost_map$`Rent.Index`)])
+p_ord = ggplot(cost_map,aes(City,`Rent.Index`))+geom_point()+theme(axis.text.x=element_blank())
+ggplotly(p_ord)
+```
+
+## Cost of living
+
+```{r,echo=FALSE,warning=FALSE}
+# cost of living index map interactive
+p1_int = plot_geo(cost_map, lat = ~lat, lon = ~lng) %>%
+  add_markers(text = ~paste(city, state, `Cost.of.Living.Index`), color = ~`Cost.of.Living.Index`, size = ~`Cost.of.Living.Index`, hoverinfo = "text") %>%
+  colorbar(title = "Cost of Living Index<br />Relative to<br />New York City<br />as 100") %>%
+  layout(title = 'Cost of Living Index for Major US Cities 2018<br />(Hover for city)', geo = g)
+p1_int
+```
+
+```{r,echo=FALSE}
+# cost of living histogram interactive
+p1_hist = ggplot(cost_map,aes(`Cost.of.Living.Index`))+geom_histogram(bins=50)
+ggplotly(p1_hist)
+```
+
+```{r,echo=FALSE}
+# cost of living scatterplot interactive
+cost_map$City = factor(cost_map$City, levels = cost_map$City[order(cost_map$`Cost.of.Living.Index`)])
+p1_ord = ggplot(cost_map,aes(City,`Cost.of.Living.Index`))+geom_point()+theme(axis.text.x=element_blank())
+ggplotly(p1_ord)
+```
+
+## Comparison
+
+```{r,echo=FALSE}
+# boxplot comparing distribution of rent and cost of living index
+cost_map_gath = gather(cost_map, key = index, value =value, 3:4)
+ggplot(cost_map_gath,aes(x=index,y=value))+geom_boxplot()
+```
+
+## Min wage
+```{r,include=FALSE}
+#min formatting
+min = min[,c(1,20)]
+names(min)[1] = 'state'
+min$state = str_remove(min$state,fixed("\n\n      "))
+X2018 = which(min$X2018 == "...")
+min$X2018[X2018]="NA"
+min$region = tolower(min$state)
+min$X2018 = as.numeric(levels(min$X2018))[min$X2018]
+names(min)[2] = 'min. wage'
+comb_map = min%>%left_join(states,by="region")
+```
+
+```{r,echo=FALSE}
+# make min wage scatter plot showing max and min 
+min$state = factor(min$state, levels = min$state[order(min$`min. wage`)])
+min_ord = ggplot(min,aes(state,`min. wage`))+geom_point()+theme(axis.text.x = element_text(angle = 90, hjust = 1))
+ggplotly(min_ord)
+```
+
+```{r, echo=FALSE}
+# min wage map interactive 
+min_map = ggplot(comb_map, aes(x=long, y=lat,fill=`min. wage`,text=toupper(region))) + geom_polygon(aes(group = group)) 
+ggplotly(min_map)
+```
+
+## References
+
+* class lecture notes
+* https://plot.ly/r/choropleth-maps/
+* https://stackoverflow.com/questions/29037851/how-do-i-plot-us-cities-using-ggplot
+* https://garrettgman.github.io/tidying/ 
+* https://stackoverflow.com/questions/5411979/state-name-to-abbreviation-in-r
+* https://rdrr.io/cran/openintro/man/abbr2state.html
+* https://community.rstudio.com/t/how-to-add-my-api-key-into-get-map/15992/5
+* https://www.datanovia.com/en/blog/top-r-color-palettes-to-know-for-great-data-visualization/
+* https://www.r-graph-gallery.com/13-scatter-plot.html
+* https://stackoverflow.com/questions/39123458/how-does-cut-with-breaks-work-in-r
+* https://stackoverflow.com/questions/45868625/how-to-reverse-the-default-color-palette-for-ggplot2/45869032#45869032
+* https://www.rforexcelusers.com/vlookup-in-r/
+* https://ggplot2.tidyverse.org/reference/scale_colour_continuous.html
+* https://plot.ly/ggplot2/
+* https://plot.ly/ggplot2/interactive-tooltip/
+* https://stackoverflow.com/questions/43515112/reversing-default-scale-gradient-ggplot2
+* https://plot.ly/r/scatter-plots-on-maps/
+* https://stackoverflow.com/questions/18115550/combine-two-or-more-columns-in-a-dataframe-into-a-new-column-with-a-new-name
+* For the convert data : https://simplemaps.com/data/us-cities
+* For the tuition data : https://nces.ed.gov/programs/digest/d18/tables/dt18_330.10.asp
+* For the min_ wage data : https://www.dol.gov/whd/state/stateMinWageHis.htm
+* For the cost_liv data : https://www.numbeo.com/cost-of-living/region_rankings.jsp?title=2018&region=021
+
