@@ -1,0 +1,133 @@
+"","City","Cost of Living Index","Rent Index"
+"1","New York, NY, United States",100,100
+"2","San Francisco, CA, United States",97.84,115.36
+"3","Anchorage, AK, United States",94.99,40.12
+"4","Honolulu, HI, United States",94.15,62.82
+"5","Brooklyn, NY, United States",93.79,76.24
+"6","Rockville, MD, United States",92.66,64
+"7","Bloomington, IN, United States",92.14,33.64
+"8","Washington, DC, United States",91.94,73.3
+"9","Santa Rosa, CA, United States",90.23,58.13
+"10","Arlington, VA, United States",89.2,61.85
+"11","Bellevue, WA, United States",88.85,66.67
+"12","Seattle, WA, United States",88.04,64.41
+"13","Berkeley, CA, United States",87.82,78.69
+"14","Boston, MA, United States",87.05,78.72
+"15","Charleston, SC, United States",86.19,45.99
+"16","Miami, FL, United States",86.01,63.2
+"17","Oakland, CA, United States",85.11,79.57
+"18","New Haven, CT, United States",84.13,47.53
+"19","Irvine, CA, United States",83.73,66.26
+"20","Philadelphia, PA, United States",83.46,48.09
+"21","San Jose, CA, United States",82.87,81.81
+"22","Tacoma, WA, United States",82.54,36.82
+"23","Los Angeles, CA, United States",82.3,68.75
+"24","Boulder, CO, United States",82.19,53.8
+"25","Portland, ME, United States",81.6,40.73
+"26","Minneapolis, MN, United States",81.46,45.65
+"27","Norfolk, VA, United States",81.36,43.59
+"28","Hartford, CT, United States",80.86,42.15
+"29","Queens, NY, United States",80.77,64.73
+"30","Albany, NY, United States",80.19,30.82
+"31","Chicago, IL, United States",80.16,56.71
+"32","Jersey City, NJ, United States",79.91,66
+"33","Olympia, WA, United States",79.25,36.06
+"34","Santa Barbara, CA, United States",79.17,71.45
+"35","Eugene, OR, United States",78.94,31.38
+"36","Burlington, VT, United States",78.89,41.89
+"37","Sacramento, CA, United States",78.75,43.34
+"38","Pittsburgh, PA, United States",78.66,39.02
+"39","Portland, OR, United States",78.45,51.72
+"40","Saint Paul, MN, United States",78.37,40.38
+"41","Long Beach, CA, United States",78.23,54.98
+"42","Fort Lauderdale, FL, United States",77.67,51.63
+"43","Everett, WA, United States",77.63,42.48
+"44","Asheville, NC, United States",77.36,37.85
+"45","Denver, CO, United States",77.31,54
+"46","Bellingham, WA, United States",77.13,34.7
+"47","Melbourne, FL, United States",77.09,29.38
+"48","San Diego, CA, United States",77.01,61.91
+"49","New Orleans, LA, United States",76.64,40.21
+"50","Orlando, FL, United States",76.63,37.35
+"51","Baltimore, MD, United States",76.57,45.03
+"52","Tampa, FL, United States",76.53,42.09
+"53","West Palm Beach, FL, United States",76.52,43.11
+"54","Colorado Springs, CO, United States",75.42,31.21
+"55","Charlotte, NC, United States",75.35,40.62
+"56","Plano, TX, United States",75.32,40.02
+"57","Atlanta, GA, United States",74.97,45.83
+"58","Fayetteville, AR, United States",74.9,24.85
+"59","Indianapolis, IN, United States",74.72,35.67
+"60","Birmingham, AL, United States",74.64,31.36
+"61","Augusta, GA, United States",74.29,22.45
+"62","Greensboro, NC, United States",74.1,26.05
+"63","Greenville, SC, United States",74.08,36.03
+"64","Jacksonville, FL, United States",73.58,32.27
+"65","Fort Collins, CO, United States",73.57,42.07
+"66","Cleveland, OH, United States",73.47,28.35
+"67","Milwaukee, WI, United States",73.37,35.5
+"68","Saint Petersburg, FL, United States",73.29,41.01
+"69","Memphis, TN, United States",72.95,27.52
+"70","Syracuse, NY, United States",72.88,30.77
+"71","Newark, NJ, United States",72.68,40.31
+"72","Akron, OH, United States",72.65,21.57
+"73","Austin, TX, United States",72.46,49.8
+"74","Fresno, CA, United States",72.36,30.94
+"75","Buffalo, NY, United States",72.15,28.94
+"76","Shreveport, LA, United States",72.07,25.24
+"77","Nashville, TN, United States",71.88,47.73
+"78","Manchester, NH, United States",71.46,33.61
+"79","Raleigh, NC, United States",71.4,37.42
+"80","Little Rock, AR, United States",71.29,24.83
+"81","Richmond, VA, United States",70.98,36.18
+"82","Las Vegas, NV, United States",70.97,29.98
+"83","Saint Louis, MO, United States",70.76,30.11
+"84","Grand Rapids, MI, United States",70.58,32.95
+"85","Rochester, NY, United States",70.52,30.31
+"86","Houston, TX, United States",70.37,44.1
+"87","Detroit, MI, United States",70.2,35.48
+"88","Ann Arbor, MI, United States",70.01,45.26
+"89","Harrisburg, PA, United States",69.91,27.78
+"90","Salem, OR, United States",69.81,32
+"91","Dayton, OH, United States",69.76,21.96
+"92","Columbia, SC, United States",69.7,29.48
+"93","Fort Wayne, IN, United States",69.42,21.43
+"94","Des Moines, IA, United States",69.37,31.23
+"95","Virginia Beach, VA, United States",69.33,37.42
+"96","Spokane, WA, United States",69.26,26.97
+"97","Bakersfield, CA, United States",69.2,29.09
+"98","Columbus, OH, United States",69.13,35.51
+"99","Cincinnati, OH, United States",69.13,31.11
+"100","Kansas City, MO, United States",69.05,29.33
+"101","Lincoln, NE, United States",68.61,28.38
+"102","Fort Myers, FL, United States",68.06,31.9
+"103","Lexington, KY, United States",67.9,25.51
+"104","Fort Worth, TX, United States",67.81,35.29
+"105","Omaha, NE, United States",67.8,30.43
+"106","Vancouver, WA, United States",67.79,34.12
+"107","Wichita, KS, United States",67.02,24.63
+"108","Lubbock, TX, United States",66.9,24.63
+"109","Chattanooga, TN, United States",66.89,27.77
+"110","Phoenix, AZ, United States",66.87,33.32
+"111","Sioux Falls, SD, United States",66.85,25.7
+"112","Salt Lake City, UT, United States",66.76,34.91
+"113","Tulsa, OK, United States",66.71,28.61
+"114","Durham, NC, United States",66.44,35.54
+"115","Springfield, MO, United States",66.4,18.79
+"116","Winston-Salem, NC, United States",66.27,24.96
+"117","Dallas, TX, United States",65.94,42.64
+"118","Albuquerque, NM, United States",65.73,25.5
+"119","Arlington, TX, United States",65.63,30.04
+"120","Madison, WI, United States",65.6,36.95
+"121","Mobile, AL, United States",65.31,24.63
+"122","Louisville, KY, United States",65.14,28.33
+"123","Pensacola, FL, United States",64.88,28.72
+"124","Oklahoma City, OK, United States",64.29,26.54
+"125","Huntsville, AL, United States",63.34,27.45
+"126","Tucson, AZ, United States",63,23.8
+"127","Reno, NV, United States",62.88,35.99
+"128","Boise, ID, United States",62.65,28.91
+"129","Knoxville, TN, United States",62.18,29.77
+"130","College Station, TX, United States",61.85,32.7
+"131","San Antonio, TX, United States",60.92,34.5
+"132","Athens, GA, United States",60.55,26.67
