@@ -18,21 +18,36 @@ library(lubridate)
 library(stringr)
 
 cost = read.csv("costliv_lo.csv", header = T)
-min = read.csv("min_wage_clean.csv", header = T)
-tuition = read.csv("tuitioncost_constant.csv", header = T)
 convert = read.csv("uscities.csv", header = T)
 states = map_data('state')
 ```
 
-## Background
+## Introduction {.tabset .tabset-fade}
 
-I am working with two datasets. The first contains cost of living information for major United States cities in 2018. It has 132 cities and two corresponding values. The first is called 'rent index' this index is relative to New York City. For New York City, all indecies are 100. For example, if another city has a rent index of 120, this means on average that cities rent is 20% more expensive than New York City. The other value is 'cost of living index' which is an indicator of consumer goods like groceries, restaurants, transportation, and utilities. It works the same as 'rent index'
+As upperclassmen, the location of the next transition of life is naturally something we are curious about. Our project explores popular US cities cost of living, state's minimum wage, and tuition costs throughout the years. Through looking at cost of living and minimum wage data we explore how money is valued in certain region. Through looking at historic tuition costs we explore how the cost of education has changed.
 
-## Cleaning
+### Cost of Living Data 
 
-Prep work on cost_of_living data and connected it to lat and long data for mapping. 
+The first dataset contains cost of living information for major United States cities in 2018. It has 132 cities with two corresponding values. The first value is the 'cost of living index' which is an indicator of consumer goods like groceries, restaurants, transportation, and utilities. The values are indices relative to New York City. For New York City, all indices are 100. The second value is 'rent index,' and it works the same as the 'cost of living index.' If another city has a rent index of 120, this means on average that cities rent is 20% more expensive than New York City. 
 
-```{r,warning = FALSE}
+An additional dataset contains the latitude and longitude values for every 28,889 cities. This was only used to enable a spatial visualization of our cost of living dataset.
+
+### Minimum Wage Data
+
+The second dataset contains the minimum wage data for 51 states. For minimum wage values lower than the federal,
+states are allowed to set lower rates for state specific reasons like number of employees and annual gross sales.
+
+The third dataset contains the latitude and longitude values for every 28,889 cities. This was only used to enable a spatial visualization of our cost of living dataset. 
+
+### Tuition Data
+
+eqefoasfoasf
+
+##
+
+content below tabbed region
+
+```{r, include=FALSE,warning = FALSE}
 cost = cost[-1]
 cost = separate(cost, City, into = c("city", "state","country"), sep = ',') 
 cost = cost[-3]
@@ -43,12 +58,7 @@ convert = convert[,c(1,4,9,10)]
 convert$state = convert$state_name
 convert = convert[-2]
 cost_map = left_join(cost,convert,by = c("city","state"))
-str(cost_map)
 ```
-
-## Rent Index
-
-
 
 ```{r,include=FALSE}
 # template
@@ -76,32 +86,16 @@ g = list(
     gridwidth = 0.5,
     range = c(20, 60),
     dtick = 5))
+
+cost_map %>% group_by(state)%>% summarise("city number"=n())
 ```
 
-```{r,echo=FALSE,warning = FALSE}
-# rent index map interactive
-p_int = plot_geo(cost_map, lat = ~lat, lon = ~lng) %>%
-  add_markers(text = ~paste(city, state,`Rent.Index`), color = ~`Rent.Index`, size = ~`Rent.Index`, hoverinfo = "text") %>%
-  colorbar(title = "Rent Index<br />Relative to<br />New York City<br />as 100") %>%
-  layout(title = 'Rent Index for Major US Cities 2018<br />(Hover for city)', geo = g)
-p_int
-```
+## Cost of Living
 
-```{r,echo=FALSE}
-# rent index histogram interactive (distribution)
-p_hist = ggplot(cost_map,aes(`Rent.Index`))+geom_histogram(bins=50)
-ggplotly(p_hist)
-```
+To explore areas that have a relatively high cost of living, both the 'Cost of Living Index' and 'Rent Index' were examined. The 'Cost of Living Index' for each major city is mapped below with the size and color of the point an output of the 'Cost of Living Index'. The larger and more yellow the point, the greater the value of 'Cost of Living Index' for that city.
 
-```{r,echo=FALSE}
-# rent index scatterplot interactive
-cost_map$City = paste(cost_map$city,cost_map$state,sep=", ")
-cost_map$City = factor(cost_map$City, levels = cost_map$City[order(cost_map$`Rent.Index`)])
-p_ord = ggplot(cost_map,aes(City,`Rent.Index`))+geom_point()+theme(axis.text.x=element_blank())
-ggplotly(p_ord)
-```
+Cost of living cost has two significant areas of spiked prices. Expensive areas can be seen on the east and west coasts.  The states of California and Florida have an especially high concentration of cities with a high 'Cost of Living Index'; however, California and Florida do have the highest proportion of major cities from the dataset with 13 cities being from California and 10 from Florida out of 132 total cities. 
 
-## Cost of living
 
 ```{r,echo=FALSE,warning=FALSE}
 # cost of living index map interactive
@@ -111,54 +105,47 @@ p1_int = plot_geo(cost_map, lat = ~lat, lon = ~lng) %>%
   layout(title = 'Cost of Living Index for Major US Cities 2018<br />(Hover for city)', geo = g)
 p1_int
 ```
+The 'Rent Index' was mapped the same way as the 'Cost of Living Index' and the same geographical pattern was visible; however, the 'Rent Index' contained more extreme values than that of 'Cost of Living.' 
 
-```{r,echo=FALSE}
-# cost of living histogram interactive
-p1_hist = ggplot(cost_map,aes(`Cost.of.Living.Index`))+geom_histogram(bins=50)
-ggplotly(p1_hist)
-```
-
-```{r,echo=FALSE}
-# cost of living scatterplot interactive
-cost_map$City = factor(cost_map$City, levels = cost_map$City[order(cost_map$`Cost.of.Living.Index`)])
-p1_ord = ggplot(cost_map,aes(City,`Cost.of.Living.Index`))+geom_point()+theme(axis.text.x=element_blank())
-ggplotly(p1_ord)
-```
-
-## Comparison
+For further investigation, the distribution of both variables were plotted next to each other in a boxplot. Revealing that the rent can be very high in extrema cities in comparison to the median. For example, New York City is 65% more expensive for rent than that of the median. However, the difference of the cost of living in these extreme rent cities compared to the median will be much smaller. For example, New York City is 25% more expensive for cost of living than the median. 
 
 ```{r,echo=FALSE}
 # boxplot comparing distribution of rent and cost of living index
 cost_map_gath = gather(cost_map, key = index, value =value, 3:4)
-ggplot(cost_map_gath,aes(x=index,y=value))+geom_boxplot()
+a = ggplot(cost_map_gath,aes(x=index,y=value))+geom_boxplot(fill='green')+annotate("text", x = 1.5, y = 100, label = " <--- New York City --->") +annotate("text", x = 1.3, y = 90, label = "3 extrema")+annotate("text", x = 2.3, y = 90, label = "8 extrema")+labs(title='Barplot of Cost of Living vs Barplot of Rent') + scale_x_discrete(labels=c("Cost of Living", "Rent"))
+ggplotly(a)
 ```
 
-## Min wage
+---
+
 ```{r,include=FALSE}
 #min formatting
+min = read.csv("min_wage_clean.csv", header = T)
 min = min[,c(1,20)]
 names(min)[1] = 'state'
-min$state = str_remove(min$state,fixed("\n\n      "))
-X2018 = which(min$X2018 == "...")
-min$X2018[X2018]="NA"
+min$state = str_remove_all(min$state,fixed("\n"))
 min$region = tolower(min$state)
-min$X2018 = as.numeric(levels(min$X2018))[min$X2018]
 names(min)[2] = 'min. wage'
 comb_map = min%>%left_join(states,by="region")
 ```
 
-```{r,echo=FALSE}
-# make min wage scatter plot showing max and min 
-min$state = factor(min$state, levels = min$state[order(min$`min. wage`)])
-min_ord = ggplot(min,aes(state,`min. wage`))+geom_point()+theme(axis.text.x = element_text(angle = 90, hjust = 1))
-ggplotly(min_ord)
-```
+## Minimum Wage
+
+The minimum wage for each state was mapped. There is a concentration of higher minimum wages on the west and upper east coast. This fits the trend of 'Cost of Living Index' sans the lower east coast. Some of the Southern states (Alabama,Louisiana,etc.) do not have a state minimum wage and adopt the federal. This could cause the expense of the state to not be reflected in their minimum wage. Since minimum wage is integrated with government policy, minimum wage data may be inaccurate to judge overall wage. 
 
 ```{r, echo=FALSE}
 # min wage map interactive 
-min_map = ggplot(comb_map, aes(x=long, y=lat,fill=`min. wage`,text=toupper(region))) + geom_polygon(aes(group = group)) 
+min_map = ggplot(comb_map, aes(x=long, y=lat,fill=`min. wage`,text=toupper(region))) + geom_polygon(aes(group = group)) +coord_map() +theme(axis.title.x=element_blank(),axis.title.y=element_blank())+ labs(title='Minimum Wage by State')
 ggplotly(min_map)
 ```
+
+---
+
+## Conclusion
+
+Living on the coast is more expensive than inland. There are more cities with extreme rent costs than that of cost of living costs. This could be due to space being a limited commodity while the overall cost of consumer goods are an abundant commodity. Individuals who live in higher cost of living areas can expect to have a higher minimum wage except for the Southern-east coast. 
+
+---
 
 ## References
 
