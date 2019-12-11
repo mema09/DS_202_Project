@@ -1,0 +1,164 @@
+---
+title: "Final Project"
+author: "Omima Hassan, Maureen McDonald, Hannah Lo, Yuma Anderson"
+date: "12/02/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyr)
+library(tidyverse)
+library(ggplot2)
+```
+
+## Background
+
+The average tuition cost for university has risen in the past 20 or so years, and we are interested in comparing the changes in tuition and minimum wage. Minimum wage is different based on every state’s laws, although federally, the minimum is currently $7.25. By analyzing the cost of tuition, the minimum wage, and the cost of living index, we can see how prices and Americans’ expenses have changed within the U.S. economy since 2000.
+
+The first dataset we used was from the Digest of Education Statistics. It contained the average tuition and fees along with board rates for each type of university in the United States by the year for 1963-2018. The second dataset we used was from the U.S. Department of Labor. It contained the minimum wage for each state from the years 1969-2018. The third data set we used was from Numbeo. It contained the average cost of living index for each state in the United States in 2018.
+
+Each of the data sets was loaded and set to "cost", "min", and "tuition".
+```{r}
+cost = read.csv("cost_liv.csv", header = T)
+min = read.csv("min_wage_clean.csv", header = T)
+tuition = read.csv("tuitioncost_current.csv", header = T)
+str(tuition)
+```
+
+## Data Cleaning
+Initial exploration revealed that some data processing was needed before we could proceed with further visualization. Our data went back to 1969. We only want to look at the last 20 years so we deleted all the data from 1969-1999. In the minimum wage date, some states had two minimum wages in one year. This could be because of different parts of the state having a higher minimum then the states, like Minnesota and Minneapolis, or they had a change in the middle of the year. To use this data, we took the average of the two minimum wages if a state had multiple wages for one year. The data set for tuition cost was also divided into current and constant costs. Since we wanted to compare the costs throughout the years, we only used current, in order to read the cost in our current value of a dollar.
+
+
+All missing or empty values were encoded with "NA" and variable were made into right category:
+```{r, warning=FALSE}
+# Changing all columns that have empty values into NA values, then removing the NA's
+X2000= which(min$X2000 == "...")
+min$X2000[X2000] = "NA"
+
+X2001= which(min$X2001 == "...")
+min$X2001[X2001] = "NA"
+
+X2002= which(min$X2002 == "...")
+min$X2002[X2002] = "NA"
+
+X2003= which(min$X2003 == "...")
+min$X2003[X2003] = "NA"
+
+X2004= which(min$X2004 == "...")
+min$X2004[X2004] = "NA"
+
+X2005= which(min$X2005 == "...")
+min$X2005[X2005] = "NA"
+
+X2006= which(min$X2006 == "...")
+min$X2006[X2006] = "NA"
+
+X2007= which(min$X2007 == "...")
+min$X2007[X2007] = "NA"
+
+X2008= which(min$X2008 == "...")
+min$X2008[X2008] = "NA"
+
+X2009= which(min$X2009 == "...")
+min$X2009[X2009] = "NA"
+
+X2010= which(min$X2010 == "...")
+min$X2010[X2010] = "NA"
+
+X2011= which(min$X2011 == "...")
+min$X2011[X2011] = "NA"
+
+X2012= which(min$X2012 == "...")
+min$X2010[X2012] = "NA"
+
+X2013= which(min$X2013 == "...")
+min$X2013[X2013] = "NA"
+
+X2014= which(min$X2014 == "...")
+min$X2014[X2014] = "NA"
+
+X2015= which(min$X2015 == "...")
+min$X2015[X2015] = "NA"
+
+X2016= which(min$X2016 == "...")
+min$X2016[X2016] = "NA"
+
+X2017= which(min$X2017 == "...")
+min$X2017[X2017] = "NA"
+
+X2018= which(min$X2018 == "...")
+min$X2018[X2018] = "NA"
+
+X2000= min$X2000=as.numeric(min$X2000)
+X2001= min$X2001=as.numeric(min$X2001)
+X2002= min$X2002=as.numeric(min$X2002)
+X2003= min$X2003=as.numeric(min$X2003)
+X2004= min$X2004=as.numeric(min$X2004)
+X2005= min$X2005=as.numeric(min$X2005)
+X2006= min$X2006=as.numeric(min$X2006)
+X2007= min$X2007=as.numeric(min$X2007)
+X2008= min$X2008=as.numeric(min$X2008)
+X2009= min$X2009=as.numeric(min$X2009)
+X2010= min$X2010=as.numeric(min$X2010)
+X2011= min$X2011=as.numeric(min$X2011)
+X2012= min$X2012=as.numeric(min$X2012)
+X2013= min$X2013=as.numeric(min$X2013)
+X2014= min$X2014=as.numeric(min$X2014)
+X2015= min$X2015=as.numeric(min$X2015)
+X2016= min$X2016=as.numeric(min$X2016)
+X2017= min$X2017=as.numeric(min$X2017)
+X2018= min$X2018=as.numeric(min$X2018)
+
+Tuition.and.required.fees2= tuition$Tuition.and.required.fees2= as.numeric(tuition$Tuition.and.required.fees2)
+Dormitory.rooms= tuition$Dormitory.rooms= as.numeric(tuition$Dormitory.rooms)
+Board3= tuition$Board3= as.numeric(tuition$Board3)
+```
+
+What state had the highest minimum wage?
+Create a histogram of state to showing the relationship between state and minimum wage
+```{r}
+min %>% 
+  ggplot(aes(State.or.other........jurisdiction, X2018))+ 
+  geom_point()+ labs(title = "States' Minimum Wage in 2018", x= "State", y="Minimum Wage for 2018")+ 
+  theme(axis.text.x = element_text(angle = 90, size = 5))
+```
+
+Has the average tuition or average minimum wage been increasing the fastest?
+Create a scatterplot showing a linear model of year vs cost for both tuition and wage. Compare slopes.
+```{r}
+tuition$tuition2=vector("numeric", length = 1)
+tuition$tuition2=(c('12349','12922','13639','14439','15505','16510','17451','18473','19364','20361','21126','22074','23011','23871','24701','25409','26132','26592','27357'))
+tuition$tuition2=as.numeric(tuition$tuition2)
+str(tuition)
+```
+
+
+
+```{r}
+tuition
+tuition %>% 
+  ggplot(aes(Year, tuition2))+ 
+  geom_point()+
+  labs(title = "Tuition by Year", x= "Year", y="Total Tuition (USD)")
+fit1 <- lm(Year ~ tuition2, data = tuition)
+summary(fit1)
+```
+
+```{r}
+new=min %>% 
+  gather(key= "Year", value="wage", "X2000":"X2018")
+x <- gregexpr("[0-9]+", new$Year)
+new$Year <- unlist(regmatches(new$Year, x))
+new%>%
+  ggplot(aes(Year, wage))+ 
+  geom_boxplot()+ 
+  labs(title = "Minimum Wage by Year", x= "Year", y="Minimum Wage (USD)")
+fit2 <- lm(Year ~ wage, data = new)
+summary(fit2)
+```
+
+Sources:
+https://datascience.stackexchange.com/questions/15589/remove-part-of-string-in-r
+https://sejohnston.com/2012/08/09/a-quick-and-easy-function-to-plot-lm-results-in-r/ 
+
