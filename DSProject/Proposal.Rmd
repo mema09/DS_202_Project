@@ -1,0 +1,52 @@
+---
+title: "Proposal"
+author: "Omima Hassan, Maureen McDonald, Hannah Lo, Yuma Anderson"
+date: "10/28/2019"
+output: html_document
+---
+
+## DS 202 Project Proposal
+
+#### **Team Members and Project Coordinator**
+* Project Coordinator- Omima 
+* Team Members: Yuma, Maureen, Hannah
+
+#### **Links to the data sources**
+* https://nces.ed.gov/programs/digest/d12/tables/dt12_381.asp
+
+* https://www.dol.gov/whd/state/stateMinWageHis.htm
+
+* https://www.numbeo.com/cost-of-living/region_rankings.jsp?title=2011&region=021
+
+#### **Overview of the dataset**
+* The first dataset contains the average tuition cost for each type of university in the United States by the year from 1969-2011.
+
+* The second dataset contains the minimum wage for each state from the years 1969-2018.
+
+* The third data set is the average cost of living index for each state in the United States in 2011.
+
+#### **Background Information**
+* The average tuition cost for university has risen in the past 50 or so years, and we are interested in comparing the changes in tuition and minimum wage. Minimum wage is different based on every state’s laws, although federally, the minimum is $7.25. By analyzing the cost of tuition, the minimum wage, and the cost of living index, we can see how prices and Americans’ expenses have changed within the U.S. economy since 1969.
+
+#### **Exploratory Analysis**
+(a) Which state had the highest minimum wage?
+  * Create a histogram of the different states to show the relationship between state and minimum wage.
+  
+(b) Has the average tuition or average minimum wage been increasing the fastest?
+  * Create a scatterplot showing a linear model of year vs cost for both tuition and wage. Compare slopes.
+
+(c) Expense of living in-state and out-state tuition compared to the type of university
+  * Create a bar chart showing the average cost of in-state and out-of-state tuition by the type of university.
+
+(d) Which state had higher enrollment rates?
+  * Create a bar chart of each state’s enrollment rate in 2011 and compare to a bar chart of each state’s enrollment rate in 1969.
+
+(e) Expense of living in each state compared with minimum wage
+  * Group states with similar costs of living and create a time series of the costs of living and the minimum wage. 
+
+(f) Price of Private non-profit vs profit institutions for in-state tuition for 2011
+  * Create which statement to say if it is a non-profit or institution then create a histogram of non-profit and profit institutions from in-state tuition for 2011
+
+(g) What is the ‘best’ state to live in? (comparing min wage, in-state tuition, and cost of living)
+  * Create scoring system based on relative score of min wage, in-state tuition, and cost of living 
+

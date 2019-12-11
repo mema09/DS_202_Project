@@ -1,0 +1,149 @@
+---
+title: "Final Project"
+author: "Omima Hassan, Maureen McDonald, Hannah Lo, Yuma Anderson"
+date: "12/02/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyr)
+library(tidyverse)
+```
+
+## Background
+
+The first dataset was from the Digest of Education Statistics. It contained the average tuition and fees along with board rates for each type of university in the United States by the year for 1964-1969 and 2017-2018.
+
+The second dataset was from the U.S. Department of Labor. It contained the minimum wage for each state from the years 2000-2018.
+
+The third data set was from Numbeo. It contained the average cost of living index for each state in the United States in 2018.
+
+Each of the data sets were loaded and set to "cost", "min", and "tuition".
+```{r}
+cost = read.csv("cost_liv.csv", header = T)
+min = read.csv("min_wage_clean.csv", header = T)
+tuition = read.csv("tuitioncost_current.csv", header = T)
+```
+
+## Data Cleaning
+Initial exploration revealed that some data processing was needed before we could proceed with further visualization. All unused values were deleted:
+
+All missing or empty values were encoded with "NA".
+```{r, warning = FALSE}
+
+# Change empty values to na then combining cleaned results 
+X2000 = which(min$X2000 == "...")
+min$X2000[X2000]="NA"
+
+X2001 = which(min$X2001 == "...")
+min$X2001[X2001]="NA"
+
+X2002 = which(min$X2002 == "...")
+min$X2002[X2002]="NA"
+
+X2003 = which(min$X2003 == "...")
+min$X2003[X2003]="NA"
+
+X2004 = which(min$X2004 == "...")
+min$X2004[X2004]="NA"
+
+X2005 = which(min$X2005 == "...")
+min$X2002[X2005]="NA"
+
+X2006 = which(min$X2006 == "...")
+min$X2006[X2006]="NA"
+
+X2007 = which(min$X2007 == "...")
+min$X2007[X2007]="NA"
+
+X2008 = which(min$X2008 == "...")
+min$X2008[X2008]="NA"
+
+X2009 = which(min$X2009 == "...")
+min$X2009[X2009]="NA"
+
+X2010 = which(min$X2010 == "...")
+min$X2010[X2010]="NA"
+
+X2011 = which(min$X2011 == "...")
+min$X2011[X2011]="NA"
+
+X2012 = which(min$X2012 == "...")
+min$X2012[X2012]="NA"
+
+X2013 = which(min$X2013 == "...")
+min$X2013[X2013]="NA"
+
+X2014 = which(min$X2014 == "...")
+min$X2014[X2014]="NA"
+
+X2015 = which(min$X2015 == "...")
+min$X2015[X2015]="NA"
+
+X2016 = which(min$X2016 == "...")
+min$X2016[X2016]="NA"
+
+X2017 = which(min$X2017 == "...")
+min$X2017[X2017]="NA"
+
+X2018 = which(min$X2018 == "...")
+min$X2018[X2018]="NA"
+
+X2000= allCombined$X2000=as.numeric(allCombined$X2000)
+X2001= allCombined$X2001=as.numeric(allCombined$X2001)
+X2002= allCombined$X2002=as.numeric(allCombined$X2002)
+X2003= allCombined$X2003=as.numeric(allCombined$X2003)
+X2004= allCombined$X2004=as.numeric(allCombined$X2004)
+X2005= allCombined$X2005=as.numeric(allCombined$X2005)
+X2006= allCombined$X2006=as.numeric(allCombined$X2006)
+X2007= allCombined$X2007=as.numeric(allCombined$X2007)
+X2008= allCombined$X2008=as.numeric(allCombined$X2008)
+X2009= allCombined$X2009=as.numeric(allCombined$X2009)
+X2010= allCombined$X2010=as.numeric(allCombined$X2010)
+X2011= allCombined$X2011=as.numeric(allCombined$X2011)
+X2012= allCombined$X2012=as.numeric(allCombined$X2012)
+X2013= allCombined$X2013=as.numeric(allCombined$X2013)
+X2014= allCombined$X2014=as.numeric(allCombined$X2014)
+X2015= allCombined$X2015=as.numeric(allCombined$X2015)
+X2016= allCombined$X2016=as.numeric(allCombined$X2016)
+X2017= allCombined$X2017=as.numeric(allCombined$X2017)
+X2018= allCombined$X2018=as.numeric(allCombined$X2018)
+
+cleanedMin = na.omit(min)
+```
+
+The data sets were merged together to form one data set:
+```{r}
+combine = merge(cleanedMin, cost)
+allCombined = merge(combine, tuition)
+```
+
+What state had the highest minimum wage?
+Create a histogram of state to showing the relationship between state and minimum wage
+```{r}
+allCombined %>% 
+  ggplot(aes(State.or.other........jurisdiction, X2018))+ 
+  geom_point()+ labs(title = "States' Minimum Wage in 2018", x= "State", y="Minimum Wage for 2018")+ 
+  theme(axis.text.x = element_text(angle = 90, size = 5))
+```
+
+Has the average tuition or average minimum wage been increasing the fastest?
+Create a scatterplot showing a linear model of year vs cost for both tuition and wage. Compare slopes.
+```{r}
+tuition %>% 
+  ggplot(aes(Year.and.control.of.institution, Total.tuition..fees..room..and.board))+ 
+  geom_point()+
+  labs(title = "Tuition by Year", x= "Year", y="Total Tuition (USD)")
+fit1 <- lm(Year.and.control.of.institution ~ Total.tuition..fees..room..and.board, data = tuition)
+summary(fit1)
+```
+
+
+
+
+
+
+Sources:
+https://datascience.stackexchange.com/questions/15589/remove-part-of-string-in-r
+https://sejohnston.com/2012/08/09/a-quick-and-easy-function-to-plot-lm-results-in-r/ 

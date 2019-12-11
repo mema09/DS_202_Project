@@ -1,0 +1,133 @@
+,city,state,Cost of Living Index,Rent Index
+1,New York,New York,100,100
+2,San Francisco,California,97.84,115.36
+3,Anchorage,Alaska,94.99,40.12
+4,Honolulu,Hawaii,94.15,62.82
+5,Brooklyn,New York,93.79,76.24
+6,Rockville,Maryland,92.66,64
+7,Bloomington,Indiana,92.14,33.64
+8,Washington,District of Columbia,91.94,73.3
+9,Santa Rosa,California,90.23,58.13
+10,Arlington,Virginia,89.2,61.85
+11,Bellevue,Washington,88.85,66.67
+12,Seattle,Washington,88.04,64.41
+13,Berkeley,California,87.82,78.69
+14,Boston,Massachusetts,87.05,78.72
+15,Charleston,South Carolina,86.19,45.99
+16,Miami,Florida,86.01,63.2
+17,Oakland,California,85.11,79.57
+18,New Haven,Connecticut,84.13,47.53
+19,Irvine,California,83.73,66.26
+20,Philadelphia,Pennsylvania,83.46,48.09
+21,San Jose,California,82.87,81.81
+22,Tacoma,Washington,82.54,36.82
+23,Los Angeles,California,82.3,68.75
+24,Boulder,Colorado,82.19,53.8
+25,Portland,Maine,81.6,40.73
+26,Minneapolis,Minnesota,81.46,45.65
+27,Norfolk,Virginia,81.36,43.59
+28,Hartford,Connecticut,80.86,42.15
+29,Queens,New York,80.77,64.73
+30,Albany,New York,80.19,30.82
+31,Chicago,Illinois,80.16,56.71
+32,Jersey City,New Jersey,79.91,66
+33,Olympia,Washington,79.25,36.06
+34,Santa Barbara,California,79.17,71.45
+35,Eugene,Oregon,78.94,31.38
+36,Burlington,Vermont,78.89,41.89
+37,Sacramento,California,78.75,43.34
+38,Pittsburgh,Pennsylvania,78.66,39.02
+39,Portland,Oregon,78.45,51.72
+40,Saint Paul,Minnesota,78.37,40.38
+41,Long Beach,California,78.23,54.98
+42,Fort Lauderdale,Florida,77.67,51.63
+43,Everett,Washington,77.63,42.48
+44,Asheville,North Carolina,77.36,37.85
+45,Denver,Colorado,77.31,54
+46,Bellingham,Washington,77.13,34.7
+47,Melbourne,Florida,77.09,29.38
+48,San Diego,California,77.01,61.91
+49,New Orleans,Louisiana,76.64,40.21
+50,Orlando,Florida,76.63,37.35
+51,Baltimore,Maryland,76.57,45.03
+52,Tampa,Florida,76.53,42.09
+53,West Palm Beach,Florida,76.52,43.11
+54,Colorado Springs,Colorado,75.42,31.21
+55,Charlotte,North Carolina,75.35,40.62
+56,Plano,Texas,75.32,40.02
+57,Atlanta,Georgia,74.97,45.83
+58,Fayetteville,Arkansas,74.9,24.85
+59,Indianapolis,Indiana,74.72,35.67
+60,Birmingham,Alabama,74.64,31.36
+61,Augusta,Georgia,74.29,22.45
+62,Greensboro,North Carolina,74.1,26.05
+63,Greenville,South Carolina,74.08,36.03
+64,Jacksonville,Florida,73.58,32.27
+65,Fort Collins,Colorado,73.57,42.07
+66,Cleveland,Ohio,73.47,28.35
+67,Milwaukee,Wisconsin,73.37,35.5
+68,Saint Petersburg,Florida,73.29,41.01
+69,Memphis,Tennessee,72.95,27.52
+70,Syracuse,New York,72.88,30.77
+71,Newark,New Jersey,72.68,40.31
+72,Akron,Ohio,72.65,21.57
+73,Austin,Texas,72.46,49.8
+74,Fresno,California,72.36,30.94
+75,Buffalo,New York,72.15,28.94
+76,Shreveport,Louisiana,72.07,25.24
+77,Nashville,Tennessee,71.88,47.73
+78,Manchester,New Hampshire,71.46,33.61
+79,Raleigh,North Carolina,71.4,37.42
+80,Little Rock,Arkansas,71.29,24.83
+81,Richmond,Virginia,70.98,36.18
+82,Las Vegas,Nevada,70.97,29.98
+83,Saint Louis,Missouri,70.76,30.11
+84,Grand Rapids,Michigan,70.58,32.95
+85,Rochester,New York,70.52,30.31
+86,Houston,Texas,70.37,44.1
+87,Detroit,Michigan,70.2,35.48
+88,Ann Arbor,Michigan,70.01,45.26
+89,Harrisburg,Pennsylvania,69.91,27.78
+90,Salem,Oregon,69.81,32
+91,Dayton,Ohio,69.76,21.96
+92,Columbia,South Carolina,69.7,29.48
+93,Fort Wayne,Indiana,69.42,21.43
+94,Des Moines,Iowa,69.37,31.23
+95,Virginia Beach,Virginia,69.33,37.42
+96,Spokane,Washington,69.26,26.97
+97,Bakersfield,California,69.2,29.09
+98,Columbus,Ohio,69.13,35.51
+99,Cincinnati,Ohio,69.13,31.11
+100,Kansas City,Missouri,69.05,29.33
+101,Lincoln,Nebraska,68.61,28.38
+102,Fort Myers,Florida,68.06,31.9
+103,Lexington,Kentucky,67.9,25.51
+104,Fort Worth,Texas,67.81,35.29
+105,Omaha,Nebraska,67.8,30.43
+106,Vancouver,Washington,67.79,34.12
+107,Wichita,Kansas,67.02,24.63
+108,Lubbock,Texas,66.9,24.63
+109,Chattanooga,Tennessee,66.89,27.77
+110,Phoenix,Arizona,66.87,33.32
+111,Sioux Falls,South Dakota,66.85,25.7
+112,Salt Lake City,Utah,66.76,34.91
+113,Tulsa,Oklahoma,66.71,28.61
+114,Durham,North Carolina,66.44,35.54
+115,Springfield,Missouri,66.4,18.79
+116,Winston-Salem,North Carolina,66.27,24.96
+117,Dallas,Texas,65.94,42.64
+118,Albuquerque,New Mexico,65.73,25.5
+119,Arlington,Texas,65.63,30.04
+120,Madison,Wisconsin,65.6,36.95
+121,Mobile,Alabama,65.31,24.63
+122,Louisville,Kentucky,65.14,28.33
+123,Pensacola,Florida,64.88,28.72
+124,Oklahoma City,Oklahoma,64.29,26.54
+125,Huntsville,Alabama,63.34,27.45
+126,Tucson,Arizona,63,23.8
+127,Reno,Nevada,62.88,35.99
+128,Boise,Idaho,62.65,28.91
+129,Knoxville,Tennessee,62.18,29.77
+130,College Station,Texas,61.85,32.7
+131,San Antonio,Texas,60.92,34.5
+132,Athens,Georgia,60.55,26.67
