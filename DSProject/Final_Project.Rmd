@@ -253,11 +253,65 @@ tuition$tuition2=vector("numeric", length = 1)
 tuition$tuition2=(c('12349','12922','13639','14439','15505','16510','17451','18473','19364','20361','21126','22074','23011','23871','24701','25409','26132','26592','27357'))
 tuition$tuition2=as.numeric(tuition$tuition2)
 meanwage= c(mean(min$X2000), mean(min$X2001),mean(min$X2002),mean(min$X2003),mean(min$X2004),mean(min$X2005),mean(min$X2006),mean(min$X2007),mean(min$X2008),mean(min$X2009),mean(min$X2010),mean(min$X2011),mean(min$X2012),mean(min$X2013),mean(min$X2014),mean(min$X2015),mean(min$X2016),mean(min$X2017),mean(min$X2018))
+
+
+tuition$tuition3= vector("numeric", length=1)
+tuition$tuition3= (c('7040', '7372', '7786', '8309', '9029', '9706', '10279', '10931', '11455', '12046', '12404', '12945', '13572', '14099', '14563', '14957', '15343', '15512', '15924'))
+tuition$tuition3 = as.numeric(tuition$tuition3)
 ```
 
 ```{r}
 cor(meanwage,tuition$tuition2)
 ```
+
+A visual representation to how much tuition costs have risen since 1999 compared to 2018. All these values are out of state tuition rates. 
+Using an animated plot showing the rise in tuition prices per academic year.
+Changed the name of Year just to make it easier to use.
+
+```{r}
+tuition = tuition %>% 
+  rename(Year =  ï..Year.and.control.of.institution)
+
+tuition = tuition %>% rename(Out_Of_State_Tuition = Total.tuition..fees..room..and.board)
+x = tuition$Year
+y = tuition$Out_Of_State_Tuition
+
+p <- tuition %>%
+  plot_ly(
+    x = ~Year,
+    y = ~Out_Of_State_Tuition,
+    frame = ~y,
+    type = 'scatter',
+    mode = 'markers',
+    showlegend = F
+    
+    ) 
+p
+```
+
+After finding the trend in values for in state and out of state tuition, We wanted to see if a prediction model could predict a new value for out of state tuition based on a given value for in state tuition.
+* Using the model, we predicted the out of state tuition of of an academic year based on an input in state tuition.
+* Since the linear model is very simple, the easiest way to predict is to use the coefficient estimates from the model.
+* From the linear model we can see how well the data was fitted to the model based on the r-squared of 0.9988.
+* This helped us determine that on on average in state and out of state tuition are linearly related.
+
+```{r}
+require(graphics)
+
+#tuition2-Out of state tuition
+#tuition3-In state tuition
+
+tuitionlm = lm(tuition2~tuition3, data=tuition)
+summary(tuitionlm)
+
+instate = 25300 # Given in state tuition value
+
+outofstate = as.numeric((tuitionlm$coefficients["tuition3"] * instate) + tuitionlm$coefficients[1])
+outofstate
+```
+
+
+
 
 ---
 
@@ -277,9 +331,10 @@ I helped construct the background and clean data portions of the final project. 
 
 I scraped all the data for the project. I cleaned the minimum wage data by removing all non numeric values. I explored the cost of living index data for patterns and graphed it spatially, I also explored the rent index data the same way. I found differing distributions between the two and further explore it with histograms of both and one barplot. I created a minimum wage spatial map and minimum wage scatterplot to explore the relationship between minimum wage and cost of living data. I integrated everyone's parts into the final report, debugged, and wrote the conclusion. Finally, I collaborated on the presentation. 
 
-### Omina:
+### Omima:
 
-write here
+In terms of the project I was able to remove all the missing and null values from the minimum wage dataset. I ran into lots of trouble when I tried to merge different datasets due to different lengths in sizes. This was narrowed down by choosing certain states to represent. After merging I was then able to pick and choose the certain columns pretaining to the questions that needed to be solved. I was then able to make an interactive scatterplot showing the difference in tuition rates by academic year for out of state tuition. Using this I then formulated a prediction model to predict out of state tuition when a given in state tuition value was given. I also helped with the final presentation.
+
 
 ### Yuma:
 
@@ -294,8 +349,7 @@ write here:
 * For the convert data : https://simplemaps.com/data/us-cities
 * For the tuition data : https://nces.ed.gov/programs/digest/d18/tables/dt18_330.10.asp
 * For the min_ wage data : https://www.dol.gov/whd/state/stateMinWageHis.htm
-* For the cost_liv data :
- https://www.numbeo.com/cost-of-living/region_rankings.jsp?title=2018&region=021
+* For the cost_liv data :https://www.numbeo.com/cost-of-living/region_rankings.jsp?title=2018&region=021
 * https://plot.ly/r/choropleth-maps/
 * https://stackoverflow.com/questions/29037851/how-do-i-plot-us-cities-using-ggplot
 * https://garrettgman.github.io/tidying/ 
@@ -315,3 +369,9 @@ write here:
 * https://stackoverflow.com/questions/18115550/combine-two-or-more-columns-in-a-dataframe-into-a-new-column-with-a-new-name
 * https://datascience.stackexchange.com/questions/15589/remove-part-of-string-in-r
 * https://sejohnston.com/2012/08/09/a-quick-and-easy-function-to-plot-lm-results-in-r/ 
+* https://www.datanovia.com/en/blog/ggplot-axis-ticks-set-and-rotate-text-labels/
+* https://towardsdatascience.com/create-animated-bar-charts-using-r-31d09e5841da
+* https://www.datanovia.com/en/lessons/rename-data-frame-columns-in-r/
+* https://plot.ly/r/animations/
+* https://stackoverflow.com/questions/3699405/how-to-cbind-or-rbind-different-lengths-vectors-without-repeating-the-elements-o
+* https://stats.stackexchange.com/questions/188042/how-to-predict-a-value-using-r
