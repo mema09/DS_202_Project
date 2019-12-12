@@ -239,8 +239,7 @@ X2018= min$X2018=as.numeric(min$X2018)
 cleanedMin = na.omit(min)
 ```
 
-What state had the highest minimum wage?
-Create a histogram of state to showing the relationship between state and minimum wage
+Create a histogram of state to showing the relationship between state and minimum wage. Some states have certain jobs that allow them to go below the minimum wage, such as Oklahoma and Georgia. These states have particularly low minimum wages because we averaged the range of wages given. In reality, the minimum wage would be closer to the federal wage of $7.25, but we had no information to get a more accurate indication of what the true value is.
 ```{r, echo=FALSE}
 min$State.or.other...jurisdiction = str_remove_all(min$State.or.other...jurisdiction, fixed("\n"))
 min$State.or.other...jurisdiction = factor(min$State.or.other...jurisdiction, levels = min$State.or.other...jurisdiction[order(min$X2018)])
@@ -248,7 +247,7 @@ min_ord = ggplot(min,aes(State.or.other...jurisdiction,X2018))+geom_point()+them
 min_ord
 ```
 
-Then we found the coorelation between minimum wage and tuition. First we had to create a new dataset that contained the mean wages for each year. As seen below, mimimum wage and tuition have a high positive correlation. This means that as tuition increases so does mimimum wage at a similar rate.
+
 ```{r, include=FALSE}
 tuition$tuition2=vector("numeric", length = 1)
 tuition$tuition2=(c('12349','12922','13639','14439','15505','16510','17451','18473','19364','20361','21126','22074','23011','23871','24701','25409','26132','26592','27357'))
@@ -272,7 +271,7 @@ Living on the coast is more expensive than inland. There are more cities with ex
 
 ### Maureen:
 
-I helped construct the background and clean data portions of the final project. I also found the coorelation between minimum wage and tuition. I made graphics to support this in the presentation.
+I helped construct the background and clean data portions of the final project. I also found the coorelation between minimum wage and tuition. I made graphics to support this in the presentation. I helped create the scatterplot for minimum wage by year. I helped write and present the presentation.
 
 ### Hannah:
 
