@@ -252,6 +252,7 @@ min_ord
 tuition$tuition2=vector("numeric", length = 1)
 tuition$tuition2=(c('12349','12922','13639','14439','15505','16510','17451','18473','19364','20361','21126','22074','23011','23871','24701','25409','26132','26592','27357'))
 tuition$tuition2=as.numeric(tuition$tuition2)
+
 meanwage= c(mean(min$X2000), mean(min$X2001),mean(min$X2002),mean(min$X2003),mean(min$X2004),mean(min$X2005),mean(min$X2006),mean(min$X2007),mean(min$X2008),mean(min$X2009),mean(min$X2010),mean(min$X2011),mean(min$X2012),mean(min$X2013),mean(min$X2014),mean(min$X2015),mean(min$X2016),mean(min$X2017),mean(min$X2018))
 
 
@@ -268,7 +269,6 @@ cor(meanwage,tuition$tuition2)
 A visual representation to how much tuition costs have risen since 1999 compared to 2018. All these values are out of state tuition rates. 
 Using an animated plot showing the rise in tuition prices per academic year.
 Changed the name of Year just to make it easier to use.
-
 ```{r}
 tuition = tuition %>% 
   rename(Year =  ï..Year.and.control.of.institution)
@@ -290,11 +290,16 @@ p <- tuition %>%
 p
 ```
 
-After finding the trend in values for in state and out of state tuition, We wanted to see if a prediction model could predict a new value for out of state tuition based on a given value for in state tuition.
-* Using the model, we predicted the out of state tuition of of an academic year based on an input in state tuition.
-* Since the linear model is very simple, the easiest way to predict is to use the coefficient estimates from the model.
-* From the linear model we can see how well the data was fitted to the model based on the r-squared of 0.9988.
-* This helped us determine that on on average in state and out of state tuition are linearly related.
+Showing if a realtionship exists between the plots of In State tuition and Out of State tuition
+```{r}
+ggplot(tuition, aes(x = tuition$Year, y = tuition$tuition3)) + geom_point() + labs(title= "In State Tuition by Academic Year", x = "Academic Year", y="In State Tuition") + theme(axis.text.x = element_text(angle=90, size = 7))
+
+ggplot(tuition, aes(x = tuition$Year, y = tuition$tuition2)) + geom_point() + labs(title= "Out of State Tuition by Academic Year", x = "Academic Year", y="Out of State Tuition") + theme(axis.text.x = element_text(angle=90, size = 7))
+```
+
+After finding the trend in values for in state and out of state tuition based on the above plots, we wanted to see if a prediction model could be used to predict a new value for out of state tuition based on a given value for in state tuition.
+Using the model, we predicted the out of state tuition of of an academic year based on an input in state tuition.
+Since the linear model is very simple to understand and use, the easiest way to predict a value was to use the coefficient estimates from the model. From the linear model we can see how well the data was fitted to the model based on the r-squared of 0.9988.This helped us determine that on on average in state and out of state tuition are linearly related.
 
 ```{r}
 require(graphics)
