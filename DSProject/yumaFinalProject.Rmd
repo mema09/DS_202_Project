@@ -1,0 +1,199 @@
+---
+title: "final project"
+output: html_document
+---
+```{r}
+library(ggplot2)
+library(readr)
+library(plyr)
+```
+
+```{r}
+costliv = read_csv("costliv_cleaned.csv")
+minwage = read_csv("min_wage_clean.csv")
+tuition = read_csv("tuitioncost_current.csv")
+```
+
+# in 2018
+
+```{r}
+minwage18 <- minwage[c(1,20)]
+tuition18 <- tuition[19, 2:3 ] 
+costlivhigh <- subset(costliv, `Cost of Living Index` >= 73,
+select=c(X1, city, state, `Cost of Living Index`, `Rent Index`))
+costlivlow <- subset(costliv, `Cost of Living Index` < 73,
+select=c(X1, city, state, `Cost of Living Index`, `Rent Index`))
+```
+
+```{r}
+costlivhigh1 <- ggplot(costlivhigh, aes(state, `Cost of Living Index`)) + geom_point(alpha= 0.3) + theme(axis.text.x = element_text(angle = 90))
+costlivhigh1
+
+costlivlow1 <- ggplot(costlivlow, aes(state, `Cost of Living Index`)) + geom_point(alpha= 0.3) + theme(axis.text.x = element_text(angle = 90))
+costlivlow1
+```
+
+```{r}
+count(costliv, 'state')
+count(costlivhigh, 'state')
+count(costlivlow, 'state')
+```
+
+## count (descending): California, Florida, Texas, Washington, New York, North Carolina
+## highest count states (descending): California, Florida, Washington, New York, Colorado
+## lowest count states (descending): Texas, Ohio, Tennessee, Michigan, Missouri, North Carolina, New York, Colorado, 
+
+```{r}
+library(tidyverse)
+costliv_box = costliv
+med = costliv_box %>% group_by(state) %>% summarise(med = median(`Cost of Living Index`))
+med1 = med[order(med$med),]
+med1$state = factor(med1$state, levels = med1$state)
+costlivgen1 <- ggplot(med1, aes(state,med)) + geom_point(color='blue') + theme(axis.text.x = element_text(angle = 90))
+costlivgen1
+```
+High Count states
+descending: california, new york, washington, florida, colorado
+
+Low Count States
+descending: michigan, ohio, tennessee, missouri, texas
+
+```{r}
+
+```
+
+
+# minimum wage analysis
+
+```{r}
+minwagebar <- ggplot(minwage18, aes(`State or other\r\r jurisdiction`, `2018`)) + geom_bar(stat = "identity")+ theme(axis.text.x = element_text(angle = 90))
+minwagebar
+```
+
+```{r}
+minwagehigh <- subset(minwage18, `2018` >= 10,
+select=c(`State or other\r\r jurisdiction`, `2018`))
+
+minwagemid <- subset(minwage18, `2018` < 10 & `2018` > 8,
+select=c(`State or other\r\r jurisdiction`, `2018`))
+
+minwagelow <- subset(minwage18, `2018` < 8,
+select=c(`State or other\r\r jurisdiction`, `2018`))
+```
+
+```{r}
+minwageplothigh <- ggplot(minwagehigh, aes(`State or other\r\r jurisdiction`, `2018`)) + geom_point(stat = "identity")+ theme(axis.text.x = element_text(angle = 90)) + labs(title = "Minimum Wage Over $10/hr by State")
+
+minwageplotmid <- ggplot(minwagemid, aes(`State or other\r\r jurisdiction`, `2018`)) + geom_point(stat = "identity")+ theme(axis.text.x = element_text(angle = 90))+ labs(title = "Minimum Wage Between $10-$8/hr by State")
+
+minwageplotlow <- ggplot(minwagelow, aes(`State or other\r\r jurisdiction`, `2018`)) + geom_point(stat = "identity")+ theme(axis.text.x = element_text(angle = 90)) + labs(title = "Minimum Wage Under $8/hr by State")
+
+minwageplothigh
+minwageplotmid
+minwageplotlow
+```
+
+## highest minimum wages: Washington, Massachusetts, California, Oregon, Arizona & Vermont (tied)
+
+# best state comparison
+states of interest: arizona, minnesota, maine, michigan, nebraska, South Dakota, vermont,  ohio, new mexico, new hampshire, nevada
+```{r}
+costlivminnesota <- subset(costliv, state == 'Minnesota',
+select=c(X1, city, state, `Cost of Living Index`))
+median(costlivminnesota$`Cost of Living Index`)
+
+costlivvermont <- subset(costliv, state == 'Vermont',
+select=c(X1, city, state, `Cost of Living Index`))
+median(costlivvermont$`Cost of Living Index`)
+
+costlivnh <- subset(costliv, state == 'New Hampshire',
+select=c(X1, city, state, `Cost of Living Index`))
+median(costlivnh$`Cost of Living Index`)
+
+costlivmichigan <- subset(costliv, state == 'Michigan',
+select=c(X1, city, state, `Cost of Living Index`))
+median(costlivmichigan$`Cost of Living Index`)
+
+costlivohio <- subset(costliv, state == 'Ohio',
+select=c(X1, city, state, `Cost of Living Index`))
+median(costlivohio$`Cost of Living Index`)
+
+costlivnebraska <- subset(costliv, state == 'Nebraska',
+select=c(X1, city, state, `Cost of Living Index`))
+median(costlivnebraska$`Cost of Living Index`)
+
+costlivnevada <- subset(costliv, state == 'Nevada',
+select=c(X1, city, state, `Cost of Living Index`))
+median(costlivnevada$`Cost of Living Index`)
+
+costlivsd <- subset(costliv, state == 'South Dakota',
+select=c(X1, city, state, `Cost of Living Index`))
+median(costlivsd$`Cost of Living Index`)
+
+costlivnm <- subset(costliv, state == 'New Mexico',
+select=c(X1, city, state, `Cost of Living Index`))
+median(costlivnm$`Cost of Living Index`)
+
+costlivarizona <- subset(costliv, state == 'Arizona',
+select=c(X1, city, state, `Cost of Living Index`))
+median(costlivarizona$`Cost of Living Index`)
+```
+descending: minnesota, vermont, new hampshire, michigan, ohio, nebraska, nevada, south dakota, new mexico, arizona
+
+# worst state comparison
+states of interest: georgia, indiana, louisiana, penn, south carolina, virginia, cali, hawaii, maryland, new york, washington
+
+```{r}
+costlivhawaii <- subset(costliv, state == 'Hawaii',
+select=c(X1, city, state, `Cost of Living Index`))
+median(costlivhawaii$`Cost of Living Index`)
+
+costlivmaryland <- subset(costliv, state == 'Maryland',
+select=c(X1, city, state, `Cost of Living Index`))
+median(costlivmaryland$`Cost of Living Index`)
+
+costlivcali <- subset(costliv, state == 'California',
+select=c(X1, city, state, `Cost of Living Index`))
+median(costlivcali$`Cost of Living Index`)
+
+costlivny <- subset(costliv, state == 'New York',
+select=c(X1, city, state, `Cost of Living Index`))
+median(costlivny$`Cost of Living Index`)
+
+costlivpenn <- subset(costliv, state == 'Pennsylvania',
+select=c(X1, city, state, `Cost of Living Index`))
+median(costlivpenn$`Cost of Living Index`)
+
+costlivwashington <- subset(costliv, state == 'Washington',
+select=c(X1, city, state, `Cost of Living Index`))
+median(costlivwashington$`Cost of Living Index`)
+
+costlivvirginia <- subset(costliv, state == 'Virginia',
+select=c(X1, city, state, `Cost of Living Index`))
+median(costlivvirginia$`Cost of Living Index`)
+
+costlivindiana <- subset(costliv, state == 'Indiana',
+select=c(X1, city, state, `Cost of Living Index`))
+median(costlivindiana$`Cost of Living Index`)
+```
+
+
+# WORST STATE: PENNSYLVANIA
+```{r}
+penncost <- ggplot(costlivpenn, aes(group = state, y = `Cost of Living Index`)) + geom_boxplot()
+penncost
+
+median(costlivpenn$`Cost of Living Index`)
+```
+minimum wage: 7.25
+
+
+# BEST STATE: ARIZONA
+```{r}
+arizonacost <- ggplot(costlivarizona, aes(group = state, y = `Cost of Living Index`)) + geom_boxplot()
+arizonacost
+
+median(costlivarizona$`Cost of Living Index`)
+```
+minimum wage of arizona: 10.5
+
