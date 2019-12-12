@@ -260,6 +260,7 @@ tuition$tuition3= (c('7040', '7372', '7786', '8309', '9029', '9706', '10279', '1
 tuition$tuition3 = as.numeric(tuition$tuition3)
 ```
 
+The coorelation between minimum wage and tuition was found after observing that both increase every year. A new dataset containing the mean wages for each year was used and correlated with the tuition data set. As seen below, mimimum wage and tuition have a high positive correlation. This means that as tuition increases so does mimimum wage at a similar rate.
 ```{r}
 cor(meanwage,tuition$tuition2)
 ```
