@@ -147,6 +147,12 @@ Living on the coast is more expensive than inland. There are more cities with ex
 
 ---
 
+## Personal Statement
+
+I scraped all the data for the project. I cleaned the minimum wage data by removing all non numeric values. I explored the cost of living index data for patterns and graphed it spatially, I also explored the rent index data the same way. I found differing distributions between the two and further explore it with histograms of both and one barplot. I created a minimum wage spatial map and minimum wage scatterplot to explore the relationship between minimum wage and cost of living data. I helped create and edit the final report's transitions and conclusion. Finally, I collaborated on the presentation. 
+
+---
+
 ## References
 
 * class lecture notes
