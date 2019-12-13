@@ -58,15 +58,10 @@ descending: california, new york, washington, florida, colorado
 Low Count States
 descending: michigan, ohio, tennessee, missouri, texas
 
-```{r}
-
-```
-
-
 # minimum wage analysis
 
 ```{r}
-minwagebar <- ggplot(minwage18, aes(`State or other\r\r jurisdiction`, `2018`)) + geom_bar(stat = "identity")+ theme(axis.text.x = element_text(angle = 90))
+minwagebar <- ggplot(minwage18, aes(`State or other\r\r jurisdiction`, `2018`)) + geom_point(stat = "identity")+ theme(axis.text.x = element_text(angle = 90))
 minwagebar
 ```
 

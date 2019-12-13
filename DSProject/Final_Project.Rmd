@@ -19,7 +19,6 @@ library(tidyverse)
 library(lubridate)
 library(stringr)
 library(readr)
-library(plyr)
 ```
 
 ## Introduction {.tabset .tabset-fade}
@@ -42,6 +41,12 @@ states are allowed to set lower rates for state specific reasons like number of 
 The first dataset we used was from the Digest of Education Statistics. It contained the average tuition and fees along with board rates for each type of university in the United States by the year for 1963-2018. 
 
 ##
+
+## Challenges
+
+Since all our data was scraped from the internet, we encountered a lot of cleaning issues. These issues mostly consisted of numeric data holding character and NA values.
+
+We tried to merge the three main datasets, but due to different sizes with different variables, we found that merging the datasets would become inaccurate. Datapoints would get dropped when forcing a merge, so instead we opted to use the datasets separately.
 
 ---
 
@@ -248,26 +253,21 @@ min_ord = ggplot(min,aes(State.or.other...jurisdiction,X2018))+geom_point()+them
 min_ord
 ```
 
+---
+
 ## Best/Worst State
 The minimum wage and tuition data was subset into just the 2018 data in order to find the best and worst state based on cost of living and minimum wage. The cost of living dataset had multiple cities per certain states, so the median of the states' cost of living index was found and visualized in a scatter plot.
-```{r, include=FALSE}
-cost = read.csv("costliv_cleaned.csv", header = T)
+
+```{r, echo=FALSE}
 minwage = min
 minwage18 <- minwage[c(1,20)]
 tuition18 <- tuition[19, 2:3 ]
-count(cost, 'state')
-str(cost)
-#cost %>% group_by(`state`) %>% summarise(med = median(Cost.of.Living.Index))
-#str(med)
-#med1 = med[order(med$med),]
-#str(med1)
-#med1$state = factor(med1$state, levels = med1$state)
-#str(cost)
-```
-
-```{r}
-#costlivgen1 <- ggplot(med1, aes(state,med)) + geom_point(color='blue') + theme(axis.text.x = element_text(angle = 90))
-#costlivgen1
+cost = read.csv("costliv_cleaned.csv", header = T)
+med = cost %>% group_by(`state`) %>% summarise(med = median(Cost.of.Living.Index))
+med1 = med[order(med$med),]
+med1$state = factor(med1$state, levels = med1$state)
+costlivgen1 <- ggplot(med1, aes(state,med)) + geom_point(color='blue') + theme(axis.text.x = element_text(angle = 90))+labs(title = "Median Cost of Living by State")
+costlivgen1
 ```
 
 The minimum wage dataset was subset into three groups: above $10/hr, between $10 and $8/hr, and below $8/hr. Four scatterplots were created, one for all states minimum wages, and a scatterplot for each subgroup that was created. 
@@ -285,21 +285,19 @@ minwagelow <- subset(minwage18, `X2018` < 8,
 select=c(`State.or.other...jurisdiction`, `X2018`))
 ```
 
-
-```{r}
+```{r, include=FALSE}
 min_ord = ggplot(min,aes(State.or.other...jurisdiction,X2018))+geom_point()+theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 4))+labs(title = "State Minimum Wage in 2018", x="State", y="Minimum Wage (USD)")
 min_ord
 ```
 
 
-```{r, echo=FALSE}
+```{r, include=FALSE}
 minwageplothigh <- ggplot(minwagehigh, aes(`State.or.other...jurisdiction`, `X2018`)) + geom_point(stat = "identity")+ theme(axis.text.x = element_text(angle = 90)) + labs(title = "Minimum Wage Over $10/hr by State")
 
 minwageplotmid <- ggplot(minwagemid, aes(`State.or.other...jurisdiction`, `X2018`)) + geom_point(stat = "identity")+ theme(axis.text.x = element_text(angle = 90))+ labs(title = "Minimum Wage Between $10-$8/hr by State")
 
 minwageplotlow <- ggplot(minwagelow, aes(`State.or.other...jurisdiction`, `X2018`)) + geom_point(stat = "identity")+ theme(axis.text.x = element_text(angle = 90)) + labs(title = "Minimum Wage Under $8/hr by State")
 
-min_ord
 minwageplothigh
 minwageplotmid
 minwageplotlow
@@ -308,24 +306,28 @@ minwageplotlow
 After creating these plots, the plots were compared to find the state with the highest cost of living and lowest minimum wage, and the lowest cost of living with the highest minimum wage. Similar states were compared by using their medians.
 
 Showing the boxplots and medians of the best state (Arizona) and the worst state (Pennsylvania).
-```{r}
+```{r, include = FALSE}
 costlivarizona <- subset(cost, state == 'Arizona',
                          select=c(X, city, state, Cost.of.Living.Index, Rent.Index))
 costlivpenn <- subset(cost, state == 'Pennsylvania', 
                       select=c(X, city, state, Cost.of.Living.Index, Rent.Index))
-arizonacost <- ggplot(costlivarizona, aes(group = state, y = Cost.of.Living.Index)) + geom_boxplot()
-arizonacost
+arizonacost <- ggplot(costlivarizona, aes(group = state, y = Cost.of.Living.Index)) + geom_boxplot() +labs(title="Boxplot of Cost of Living in Arizona")
+penncost <- ggplot(costlivpenn, aes(group = state, y = Cost.of.Living.Index)) + geom_boxplot()+labs(title="Boxplot of Cost of Living in Pennsylvania")
+```
 
+```{r, echo=FALSE}
+arizonacost
 median(costlivarizona$Cost.of.Living.Index)
 
-penncost <- ggplot(costlivpenn, aes(group = state, y = Cost.of.Living.Index)) + geom_boxplot()
-penncost
 
+penncost
 median(costlivpenn$Cost.of.Living.Index)
 ```
 
 
 ---
+
+## Tuition
 
 ```{r, include=FALSE}
 tuition$tuition2=vector("numeric", length = 1)
@@ -342,7 +344,7 @@ tuition$tuition3 = as.numeric(tuition$tuition3)
 
 
 An animated plot was used to show the rise in tuition prices per academic year for 1999-2018. We used out of state tuition and changed the name of Year to make it easier to work with.
-```{r}
+```{r, echo=FALSE}
 names(tuition) = c("Year", "Out_Of_State_Tuition", "Tuition.and.required.fees2", "Dormitory.rooms","Board3","dorms.total","tuition2","tuition3")
 
 x = tuition$Year
@@ -361,13 +363,13 @@ p <- tuition %>%
 p
 ```
 
-The coorelation between minimum wage and tuition was found after observing that both increase every year. A new dataset containing the mean wages for each year was used and correlated with the tuition data set. As seen below, mimimum wage and tuition have a high positive correlation. This means that as tuition increases so does mimimum wage at a similar rate.
-```{r}
+The correlation between minimum wage and tuition was found after observing that both increase every year. A new dataset containing the mean wages for each year was used and correlated with the tuition data set. As seen below, mimimum wage and tuition have a high positive correlation. This means that as tuition increases so does mimimum wage at a similar rate.
+```{r, echo= FALSE}
 cor(meanwage,tuition$tuition2)
 ```
 
 Showing if a realtionship exists between the plots of In State tuition and Out of State tuition
-```{r}
+```{r, echo=FALSE}
 ggplot(tuition, aes(x = tuition$Year, y = tuition$tuition3)) + geom_point() + labs(title= "In State Tuition by Academic Year", x = "Academic Year", y="In State Tuition") + theme(axis.text.x = element_text(angle=90, size = 7))
 
 ggplot(tuition, aes(x = tuition$Year, y = tuition$tuition2)) + geom_point() + labs(title= "Out of State Tuition by Academic Year", x = "Academic Year", y="Out of State Tuition") + theme(axis.text.x = element_text(angle=90, size = 7))
@@ -377,7 +379,7 @@ After finding the trend in values for in state and out of state tuition based on
 Using the model, we predicted the out of state tuition of an academic year based on a given input value for in state tuition.
 Since the linear model is very simple to understand and use, the easiest way to predict a value was to use the coefficient estimates from the model. From the linear model we can see how well the data was fitted to the model based on the r-squared of 0.9988.This helped us determine that on average in state and out of state tuition are linearly related.
 
-```{r}
+```{r, echo=FALSE}
 require(graphics)
 
 #tuition2-Out of state tuition
@@ -393,13 +395,14 @@ outofstate
 ```
 
 
-
-
 ---
 
 ## Conclusion
 
 Living on the coast is more expensive than inland. There are more cities with extreme rent costs than that of cost of living costs. This could be due to space being a limited commodity while the overall cost of consumer goods are an abundant commodity. Individuals who live in higher cost of living areas can expect to have a higher minimum wage except for the Southern-east coast. 
+Tuition and minimum wage have a strong positive correlation. This means that as tuition increases, minimum wage also increases at a similar rate.
+Using minimum wage and the cost of living index, Arizona is the best state to live in, and Pennsylvania is the worst. Arizona was the 9th lowest in cost of living, whereas Pennsylvania was the 38th highest of 132. Cost of living by city was comparable to states after taking the medians grouped by state.
+From the summary statistics we obtained an r-squared score of 0.9989 and a p-value of 0.0134 which was an indicator on how well the data could fit the linear model, as well as indicating that it was statistically significant. This lead us to believe that on average as in state tuition rates increased so did out of state tuition rates
 
 ---
 
@@ -422,7 +425,7 @@ In terms of the project I was able to remove all the missing and null values fro
 
 I cleaned the tuition data and cost of living data by removing all non-numeric values. Because the cost of living dataset sometimes has multiple datapoints per state, I struggled to combine datasets and ended up importing them and working with them separately. I found the medians of the costs of living by state in order to simplify the dataset. I created a scatterplot of the minimum wages, and subset the minimum wage data into three groups. I then found the tradeoff between cost of living and minimum wage by best and worst state. I helped create and present the presentation. 
 
-
+##
 
 ---
 
