@@ -34,7 +34,7 @@ An additional dataset contains the latitude and longitude values for every 28,88
 ### Minimum Wage Data
 
 The second dataset we used was from the U.S. Department of Labor. It contained the minimum wage for each state from the years 1969-2018. For minimum wage values lower than the federal,
-states are allowed to set lower rates for state specific reasons like number of employees and annual gross sales.
+states are allowed to set lower rates for state-specific reasons like the number of employees and annual gross sales.
 
 ### Tuition Data
 
@@ -42,11 +42,13 @@ The first dataset we used was from the Digest of Education Statistics. It contai
 
 ##
 
+---
+
 ## Challenges
 
 Since all our data was scraped from the internet, we encountered a lot of cleaning issues. These issues mostly consisted of numeric data holding character and NA values.
 
-We tried to merge the three main datasets, but due to different sizes with different variables, we found that merging the datasets would become inaccurate. Datapoints would get dropped when forcing a merge, so instead we opted to use the datasets separately.
+We tried to merge the three main datasets, but due to different sizes with different variables, we found that merging the datasets would become inaccurate. Datapoints would get dropped when forcing a merge, so instead, we opted to use the datasets separately.
 
 ---
 
@@ -113,7 +115,7 @@ g = list(
 
 ## Cost of Living
 
-To explore areas that have a relatively high cost of living, both the 'Cost of Living Index' and 'Rent Index' were examined. The 'Cost of Living Index' for each major city is mapped below with the size and color of the point an output of the 'Cost of Living Index'. The larger and more yellow the point, the greater the value of 'Cost of Living Index' for that city.
+To explore areas that have a relatively high cost of living, both the 'Cost of Living Index' and 'Rent Index' were examined. The 'Cost of Living Index' for each major city is mapped below with the size and color of the point an output of the 'Cost of Living Index'. The larger and more yellow the point, the greater the value of the 'Cost of Living Index' for that city.
 
 'Cost of Living Index' has two significant areas of spiked prices. Expensive areas can be seen on the east and west coasts.  The states of California and Florida have an especially high concentration of cities with a high 'Cost of Living Index'; however, California and Florida do have the highest proportion of major cities from the dataset with 13 cities being from California and 10 from Florida out of 132 total cities. 
 
@@ -128,7 +130,7 @@ p1_int
 ```
 The 'Rent Index' was mapped the same way as the 'Cost of Living Index' and the same geographical pattern was visible; however, the 'Rent Index' contained more extreme values than that of 'Cost of Living.' 
 
-For further investigation, the distribution of both variables were plotted next to each other in a boxplot. Revealing that the rent can be very high in extrema cities in comparison to the median. For example, New York City is 65% more expensive for rent than that of the median. However, the difference of the cost of living in these extreme rent cities compared to the median will be much smaller. For example, New York City is 25% more expensive for cost of living than the median. 
+For further investigation, the distribution of both variables were plotted next to each other in a boxplot. Revealing that the rent can be very high in extrema cities in comparison to the median. For example, New York City is 65% more expensive for rent than that of the median. However, the difference of the cost of living in these extreme rent cities compared to the median will be much smaller. For example, New York City is 25% more expensive for the cost of living than the median. 
 
 ```{r,echo=FALSE}
 # boxplot comparing distribution of rent and cost of living index
@@ -152,7 +154,7 @@ comb_map = min%>%left_join(states,by="region")
 
 ## Minimum Wage
 
-The minimum wage for each state was mapped. There is a concentration of higher minimum wages on the west and upper east coast. This fits the trend of 'Cost of Living Index' sans the lower east coast. Some of the Southern states (Alabama,Louisiana,etc.) do not have a state minimum wage and adopt the federal. This could cause the expense of the state to not be reflected in their minimum wage. Since minimum wage is integrated with government policy, minimum wage data may be inaccurate to judge overall wage. 
+The minimum wage for each state was mapped. There is a concentration of higher minimum wages on the west and upper east coast. This fits the trend of 'Cost of Living Index' sans the lower east coast. Some of the Southern states (Alabama, Louisiana,etc.) do not have a state minimum wage and adopt the federal. This could cause the expense of the state to not be reflected in their minimum wage. Since minimum wage is integrated with government policy, minimum wage data may be inaccurate to judge overall wage. 
 
 ```{r, echo=FALSE}
 # min wage map interactive 
@@ -256,7 +258,7 @@ min_ord
 ---
 
 ## Best/Worst State
-The minimum wage and tuition data was subset into just the 2018 data in order to find the best and worst state based on cost of living and minimum wage. The cost of living dataset had multiple cities per certain states, so the median of the states' cost of living index was found and visualized in a scatter plot.
+The minimum wage and tuition data were subset into just the 2018 data in order to find the best and worst state based on the cost of living and minimum wage. The cost of living dataset had multiple cities per certain states, so the median of the states' cost of living index was found and visualized in a scatter plot.
 
 ```{r, echo=FALSE}
 minwage = min
@@ -303,7 +305,7 @@ minwageplotmid
 minwageplotlow
 ```
 
-After creating these plots, the plots were compared to find the state with the highest cost of living and lowest minimum wage, and the lowest cost of living with the highest minimum wage. Similar states were compared by using their medians.
+After creating these plots, the plots were compared to find the state with the highest cost of living and the lowest minimum wage, and the lowest cost of living with the highest minimum wage. Using the subsetted plots for minimum wage, they were cross-compared with the plot for median cost of living. States with low cost of living and high minimum wage are considered the "best" whereas high cost of living and low minimum wage are considered the "worst". Similar states were compared by using their medians. Arizona's median cost of living was the lowest for its minimum wage of $10.50. Pennsylvania's median cost of living was the highest for its minimum wage of $7.25. 
 
 Showing the boxplots and medians of the best state (Arizona) and the worst state (Pennsylvania).
 ```{r, include = FALSE}
@@ -363,12 +365,12 @@ p <- tuition %>%
 p
 ```
 
-The correlation between minimum wage and tuition was found after observing that both increase every year. A new dataset containing the mean wages for each year was used and correlated with the tuition data set. As seen below, mimimum wage and tuition have a high positive correlation. This means that as tuition increases so does mimimum wage at a similar rate.
+The correlation between minimum wage and tuition was found after observing that both increase every year. A new dataset containing the mean wages for each year was used and correlated with the tuition data set. As seen below, minimum wage and tuition have a high positive correlation. This means that as tuition increases so does minimum wage at a similar rate.
 ```{r, echo= FALSE}
 cor(meanwage,tuition$tuition2)
 ```
 
-Showing if a realtionship exists between the plots of In State tuition and Out of State tuition
+Showing if a relationship exists between the plots of In State tuition and Out of State tuition.
 ```{r, echo=FALSE}
 ggplot(tuition, aes(x = tuition$Year, y = tuition$tuition3)) + geom_point() + labs(title= "In State Tuition by Academic Year", x = "Academic Year", y="In State Tuition") + theme(axis.text.x = element_text(angle=90, size = 7))
 
@@ -377,7 +379,7 @@ ggplot(tuition, aes(x = tuition$Year, y = tuition$tuition2)) + geom_point() + la
 
 After finding the trend in values for in state and out of state tuition based on the above plots, we wanted to see if a prediction model could be used to predict a new value for out of state tuition based on a given value for in state tuition.
 Using the model, we predicted the out of state tuition of an academic year based on a given input value for in state tuition.
-Since the linear model is very simple to understand and use, the easiest way to predict a value was to use the coefficient estimates from the model. From the linear model we can see how well the data was fitted to the model based on the r-squared of 0.9988.This helped us determine that on average in state and out of state tuition are linearly related.
+Since the linear model is very simple to understand and use, the easiest way to predict a value was to use the coefficient estimates from the model. From the linear model, we can see how well the data was fitted to the model based on the r-squared of 0.9988. This helped us determine that on average in state and out of state tuition are linearly related.
 
 ```{r, echo=FALSE}
 require(graphics)
@@ -399,10 +401,10 @@ outofstate
 
 ## Conclusion
 
-Living on the coast is more expensive than inland. There are more cities with extreme rent costs than that of cost of living costs. This could be due to space being a limited commodity while the overall cost of consumer goods are an abundant commodity. Individuals who live in higher cost of living areas can expect to have a higher minimum wage except for the Southern-east coast. 
+Living on the coast is more expensive than inland. There are more cities with extreme rent costs than that of the cost of living costs. This could be due to space being a limited commodity while the overall cost of consumer goods is an abundant commodity. Individuals who live in higher cost of living areas can expect to have a higher minimum wage except for the Southern-east coast. 
 Tuition and minimum wage have a strong positive correlation. This means that as tuition increases, minimum wage also increases at a similar rate.
-Using minimum wage and the cost of living index, Arizona is the best state to live in, and Pennsylvania is the worst. Arizona was the 9th lowest in cost of living, whereas Pennsylvania was the 38th highest of 132. Cost of living by city was comparable to states after taking the medians grouped by state.
-From the summary statistics we obtained an r-squared score of 0.9989 and a p-value of 0.0134 which was an indicator on how well the data could fit the linear model, as well as indicating that it was statistically significant. This lead us to believe that on average as in state tuition rates increased so did out of state tuition rates
+Using minimum wage and the cost of living index, Arizona is the best state to live in, and Pennsylvania is the worst. Arizona was the 9th lowest in the cost of living, whereas Pennsylvania was the 38th highest of 132. The cost of living by city was comparable to states after taking the medians grouped by state.
+From the summary statistics, we obtained a r-squared score of 0.9989 and a p-value of 0.0134 which was an indicator of how well the data could fit the linear model, as well as indicating that it was statistically significant. This leads us to believe that on average as in state tuition rates increased so did out of state tuition rates
 
 ---
 
@@ -410,20 +412,20 @@ From the summary statistics we obtained an r-squared score of 0.9989 and a p-val
 
 ### Maureen:
 
-I helped construct the background and clean data portions of the final project. I also found the coorelation between minimum wage and tuition. I made graphics to support this in the presentation. I helped create the scatterplot for minimum wage by year. I helped write and present the presentation.
+I helped construct the background and clean data portions of the final project. I also found the correlation between minimum wage and tuition. I made graphics to support this in the presentation. I helped create the scatterplot for minimum wage by year. I helped write and present the presentation.
 
 ### Hannah:
 
-I scraped all the data for the project. I cleaned the minimum wage data by removing all non numeric values. I explored the cost of living index data for patterns and graphed it spatially, I also explored the rent index data the same way. I found differing distributions between the two and further explore it with histograms of both and one barplot. I created a minimum wage spatial map and minimum wage scatterplot to explore the relationship between minimum wage and cost of living data. I integrated everyone's parts into the final report, debugged, and wrote the conclusion. Finally, I collaborated on the presentation. 
+I scraped all the data for the project. I cleaned the minimum wage data by removing all non-numeric values. I explored the cost of living index data for patterns and graphed it spatially, I also explored the rent index data the same way. I found differing distributions between the two and further explore it with histograms of both and one barplot. I created a minimum wage spatial map and minimum wage scatterplot to explore the relationship between minimum wage and cost of living data. I integrated everyone's parts into the final report, debugged, and wrote the conclusion. Finally, I collaborated on the presentation. 
 
 ### Omima:
 
-In terms of the project I was able to remove all the missing and null values from the minimum wage dataset. I ran into lots of trouble when I tried to merge different datasets due to different lengths in sizes. This was narrowed down by choosing certain states to represent. After merging I was then able to pick and choose the certain columns pretaining to the questions that needed to be solved. I was then able to make an interactive scatterplot showing the difference in tuition rates by academic year for out of state tuition. Using this I then formulated a prediction model to predict out of state tuition when a given in state tuition value was given. I also helped with the final presentation.
+In terms of the project, I was able to remove all the missing and null values from the minimum wage dataset. I ran into lots of trouble when I tried to merge different datasets due to different lengths in sizes. This was narrowed down by choosing certain states to represent. After merging I was then able to pick and choose the certain columns pertaining to the questions that needed to be solved. I was then able to make an interactive scatterplot showing the difference in tuition rates by academic year for out of state tuition. Using this I then formulated a prediction model to predict out of state tuition when a given in state tuition value was given. I also helped with the final presentation.
 
 
 ### Yuma:
 
-I cleaned the tuition data and cost of living data by removing all non-numeric values. Because the cost of living dataset sometimes has multiple datapoints per state, I struggled to combine datasets and ended up importing them and working with them separately. I found the medians of the costs of living by state in order to simplify the dataset. I created a scatterplot of the minimum wages, and subset the minimum wage data into three groups. I then found the tradeoff between cost of living and minimum wage by best and worst state. I helped create and present the presentation. 
+I cleaned the tuition data and cost of living data by removing all non-numeric values. Because the cost of living dataset sometimes has multiple datapoints per state, I struggled to combine datasets and ended up importing them and working with them separately. I found the medians of the costs of living by state in order to simplify the dataset. I created a scatterplot of the minimum wages, and subset the minimum wage data into three groups. I then found the tradeoff between the cost of living and minimum wage by best and worst state. I helped create and present the presentation. 
 
 ##
 
