@@ -104,15 +104,13 @@ g = list(
     gridwidth = 0.5,
     range = c(20, 60),
     dtick = 5))
-
-cost_map %>% group_by(state)%>% summarise("city number"=n())
 ```
 
 ## Cost of Living
 
 To explore areas that have a relatively high cost of living, both the 'Cost of Living Index' and 'Rent Index' were examined. The 'Cost of Living Index' for each major city is mapped below with the size and color of the point an output of the 'Cost of Living Index'. The larger and more yellow the point, the greater the value of 'Cost of Living Index' for that city.
 
-Cost of living cost has two significant areas of spiked prices. Expensive areas can be seen on the east and west coasts.  The states of California and Florida have an especially high concentration of cities with a high 'Cost of Living Index'; however, California and Florida do have the highest proportion of major cities from the dataset with 13 cities being from California and 10 from Florida out of 132 total cities. 
+'Cost of Living Index' has two significant areas of spiked prices. Expensive areas can be seen on the east and west coasts.  The states of California and Florida have an especially high concentration of cities with a high 'Cost of Living Index'; however, California and Florida do have the highest proportion of major cities from the dataset with 13 cities being from California and 10 from Florida out of 132 total cities. 
 
 
 ```{r,echo=FALSE,warning=FALSE}
@@ -241,7 +239,8 @@ X2018= min$X2018=as.numeric(min$X2018)
 cleanedMin = na.omit(min)
 ```
 
-Create a histogram of state to showing the relationship between state and minimum wage. Some states have certain jobs that allow them to go below the minimum wage, such as Oklahoma and Georgia. These states have particularly low minimum wages because we averaged the range of wages given. In reality, the minimum wage would be closer to the federal wage of $7.25, but we had no information to get a more accurate indication of what the true value is.
+A scatterplot was created to view the relationship between state and minimum wage. Some states have certain jobs that allow them to go below the minimum wage, such as Oklahoma and Georgia. These states have particularly low minimum wages because we averaged the range of wages given. In reality, the minimum wage would be closer to the federal wage of $7.25, but we had no information to get a more accurate indication of what the true value is.
+
 ```{r, echo=FALSE}
 min$State.or.other...jurisdiction = str_remove_all(min$State.or.other...jurisdiction, fixed("\n"))
 min$State.or.other...jurisdiction = factor(min$State.or.other...jurisdiction, levels = min$State.or.other...jurisdiction[order(min$X2018)])
@@ -252,18 +251,23 @@ min_ord
 ## Best/Worst State
 The minimum wage and tuition data was subset into just the 2018 data in order to find the best and worst state based on cost of living and minimum wage. The cost of living dataset had multiple cities per certain states, so the median of the states' cost of living index was found and visualized in a scatter plot.
 ```{r, include=FALSE}
+cost = read.csv("costliv_cleaned.csv", header = T)
+minwage = min
 minwage18 <- minwage[c(1,20)]
 tuition18 <- tuition[19, 2:3 ]
-count(costliv, 'state')
-costliv_box = costliv
-med = costliv_box %>% group_by(state) %>% summarise(med = median(`Cost of Living Index`))
-med1 = med[order(med$med),]
-med1$state = factor(med1$state, levels = med1$state)
+count(cost, 'state')
+str(cost)
+#cost %>% group_by(`state`) %>% summarise(med = median(Cost.of.Living.Index))
+#str(med)
+#med1 = med[order(med$med),]
+#str(med1)
+#med1$state = factor(med1$state, levels = med1$state)
+#str(cost)
 ```
 
 ```{r}
-costlivgen1 <- ggplot(med1, aes(state,med)) + geom_point(color='blue') + theme(axis.text.x = element_text(angle = 90))
-costlivgen1
+#costlivgen1 <- ggplot(med1, aes(state,med)) + geom_point(color='blue') + theme(axis.text.x = element_text(angle = 90))
+#costlivgen1
 ```
 
 The minimum wage dataset was subset into three groups: above $10/hr, between $10 and $8/hr, and below $8/hr. Four scatterplots were created, one for all states minimum wages, and a scatterplot for each subgroup that was created. 
@@ -271,120 +275,57 @@ The minimum wage dataset was subset into three groups: above $10/hr, between $10
 min$State.or.other...jurisdiction = str_remove_all(min$State.or.other...jurisdiction, fixed("\n"))
 min$State.or.other...jurisdiction = factor(min$State.or.other...jurisdiction, levels = min$State.or.other...jurisdiction[order(min$X2018)])
 
-minwagehigh <- subset(minwage18, `2018` >= 10,
-select=c(`State or other\r\r jurisdiction`, `2018`))
+minwagehigh <- subset(minwage18, `X2018` >= 10,
+select=c(`State.or.other...jurisdiction`, `X2018`))
 
-minwagemid <- subset(minwage18, `2018` < 10 & `2018` > 8,
-select=c(`State or other\r\r jurisdiction`, `2018`))
+minwagemid <- subset(minwage18, `X2018` < 10 & `X2018` > 8,
+select=c(`State.or.other...jurisdiction`, `X2018`))
 
-minwagelow <- subset(minwage18, `2018` < 8,
-select=c(`State or other\r\r jurisdiction`, `2018`))
+minwagelow <- subset(minwage18, `X2018` < 8,
+select=c(`State.or.other...jurisdiction`, `X2018`))
 ```
+
 
 ```{r}
 min_ord = ggplot(min,aes(State.or.other...jurisdiction,X2018))+geom_point()+theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 4))+labs(title = "State Minimum Wage in 2018", x="State", y="Minimum Wage (USD)")
+min_ord
+```
 
-minwageplothigh <- ggplot(minwagehigh, aes(`State or other\r\r jurisdiction`, `2018`)) + geom_point(stat = "identity")+ theme(axis.text.x = element_text(angle = 90)) + labs(title = "Minimum Wage Over $10/hr by State")
 
-minwageplotmid <- ggplot(minwagemid, aes(`State or other\r\r jurisdiction`, `2018`)) + geom_point(stat = "identity")+ theme(axis.text.x = element_text(angle = 90))+ labs(title = "Minimum Wage Between $10-$8/hr by State")
+```{r, echo=FALSE}
+minwageplothigh <- ggplot(minwagehigh, aes(`State.or.other...jurisdiction`, `X2018`)) + geom_point(stat = "identity")+ theme(axis.text.x = element_text(angle = 90)) + labs(title = "Minimum Wage Over $10/hr by State")
 
-minwageplotlow <- ggplot(minwagelow, aes(`State or other\r\r jurisdiction`, `2018`)) + geom_point(stat = "identity")+ theme(axis.text.x = element_text(angle = 90)) + labs(title = "Minimum Wage Under $8/hr by State")
+minwageplotmid <- ggplot(minwagemid, aes(`State.or.other...jurisdiction`, `X2018`)) + geom_point(stat = "identity")+ theme(axis.text.x = element_text(angle = 90))+ labs(title = "Minimum Wage Between $10-$8/hr by State")
+
+minwageplotlow <- ggplot(minwagelow, aes(`State.or.other...jurisdiction`, `X2018`)) + geom_point(stat = "identity")+ theme(axis.text.x = element_text(angle = 90)) + labs(title = "Minimum Wage Under $8/hr by State")
 
 min_ord
 minwageplothigh
 minwageplotmid
 minwageplotlow
 ```
-After creating these plots, the plots were compared to find the state with the highest cost of living and lowest minimum wage, and the lowest cost of living with the highest minimum wage. Similar states were compared to using their medians.
-```{r, include=FALSE}
-costlivminnesota <- subset(costliv, state == 'Minnesota',
-select=c(X1, city, state, `Cost of Living Index`))
-median(costlivminnesota$`Cost of Living Index`)
 
-costlivvermont <- subset(costliv, state == 'Vermont',
-select=c(X1, city, state, `Cost of Living Index`))
-median(costlivvermont$`Cost of Living Index`)
+After creating these plots, the plots were compared to find the state with the highest cost of living and lowest minimum wage, and the lowest cost of living with the highest minimum wage. Similar states were compared by using their medians.
 
-costlivnh <- subset(costliv, state == 'New Hampshire',
-select=c(X1, city, state, `Cost of Living Index`))
-median(costlivnh$`Cost of Living Index`)
-
-costlivmichigan <- subset(costliv, state == 'Michigan',
-select=c(X1, city, state, `Cost of Living Index`))
-median(costlivmichigan$`Cost of Living Index`)
-
-costlivohio <- subset(costliv, state == 'Ohio',
-select=c(X1, city, state, `Cost of Living Index`))
-median(costlivohio$`Cost of Living Index`)
-
-costlivnebraska <- subset(costliv, state == 'Nebraska',
-select=c(X1, city, state, `Cost of Living Index`))
-median(costlivnebraska$`Cost of Living Index`)
-
-costlivnevada <- subset(costliv, state == 'Nevada',
-select=c(X1, city, state, `Cost of Living Index`))
-median(costlivnevada$`Cost of Living Index`)
-
-costlivsd <- subset(costliv, state == 'South Dakota',
-select=c(X1, city, state, `Cost of Living Index`))
-median(costlivsd$`Cost of Living Index`)
-
-costlivnm <- subset(costliv, state == 'New Mexico',
-select=c(X1, city, state, `Cost of Living Index`))
-median(costlivnm$`Cost of Living Index`)
-
-costlivarizona <- subset(costliv, state == 'Arizona',
-select=c(X1, city, state, `Cost of Living Index`))
-median(costlivarizona$`Cost of Living Index`)
-
-costlivhawaii <- subset(costliv, state == 'Hawaii',
-select=c(X1, city, state, `Cost of Living Index`))
-median(costlivhawaii$`Cost of Living Index`)
-
-costlivmaryland <- subset(costliv, state == 'Maryland',
-select=c(X1, city, state, `Cost of Living Index`))
-median(costlivmaryland$`Cost of Living Index`)
-
-costlivcali <- subset(costliv, state == 'California',
-select=c(X1, city, state, `Cost of Living Index`))
-median(costlivcali$`Cost of Living Index`)
-
-costlivny <- subset(costliv, state == 'New York',
-select=c(X1, city, state, `Cost of Living Index`))
-median(costlivny$`Cost of Living Index`)
-
-costlivpenn <- subset(costliv, state == 'Pennsylvania',
-select=c(X1, city, state, `Cost of Living Index`))
-median(costlivpenn$`Cost of Living Index`)
-
-costlivwashington <- subset(costliv, state == 'Washington',
-select=c(X1, city, state, `Cost of Living Index`))
-median(costlivwashington$`Cost of Living Index`)
-
-costlivvirginia <- subset(costliv, state == 'Virginia',
-select=c(X1, city, state, `Cost of Living Index`))
-median(costlivvirginia$`Cost of Living Index`)
-
-costlivindiana <- subset(costliv, state == 'Indiana',
-select=c(X1, city, state, `Cost of Living Index`))
-median(costlivindiana$`Cost of Living Index`)
-
-```
-Showing the details of the best state (Arizona) and the worst state (Pennsylvania).
+Showing the boxplots and medians of the best state (Arizona) and the worst state (Pennsylvania).
 ```{r}
-arizonacost <- ggplot(costlivarizona, aes(group = state, y = `Cost of Living Index`)) + geom_boxplot()
+costlivarizona <- subset(cost, state == 'Arizona',
+                         select=c(X, city, state, Cost.of.Living.Index, Rent.Index))
+costlivpenn <- subset(cost, state == 'Pennsylvania', 
+                      select=c(X, city, state, Cost.of.Living.Index, Rent.Index))
+arizonacost <- ggplot(costlivarizona, aes(group = state, y = Cost.of.Living.Index)) + geom_boxplot()
 arizonacost
 
-median(costlivarizona$`Cost of Living Index`)
+median(costlivarizona$Cost.of.Living.Index)
 
-penncost <- ggplot(costlivpenn, aes(group = state, y = `Cost of Living Index`)) + geom_boxplot()
+penncost <- ggplot(costlivpenn, aes(group = state, y = Cost.of.Living.Index)) + geom_boxplot()
 penncost
 
-median(costlivpenn$`Cost of Living Index`)
+median(costlivpenn$Cost.of.Living.Index)
 ```
 
 
-
+---
 
 ```{r, include=FALSE}
 tuition$tuition2=vector("numeric", length = 1)
@@ -399,19 +340,11 @@ tuition$tuition3= (c('7040', '7372', '7786', '8309', '9029', '9706', '10279', '1
 tuition$tuition3 = as.numeric(tuition$tuition3)
 ```
 
-The coorelation between minimum wage and tuition was found after observing that both increase every year. A new dataset containing the mean wages for each year was used and correlated with the tuition data set. As seen below, mimimum wage and tuition have a high positive correlation. This means that as tuition increases so does mimimum wage at a similar rate.
-```{r}
-cor(meanwage,tuition$tuition2)
-```
 
-A visual representation to how much tuition costs have risen since 1999 compared to 2018. All these values are out of state tuition rates. 
-Using an animated plot showing the rise in tuition prices per academic year.
-Changed the name of Year just to make it easier to use.
+An animated plot was used to show the rise in tuition prices per academic year for 1999-2018. We used out of state tuition and changed the name of Year to make it easier to work with.
 ```{r}
-tuition = tuition %>% 
-  rename(Year =  ï..Year.and.control.of.institution)
+names(tuition) = c("Year", "Out_Of_State_Tuition", "Tuition.and.required.fees2", "Dormitory.rooms","Board3","dorms.total","tuition2","tuition3")
 
-tuition = tuition %>% rename(Out_Of_State_Tuition = Total.tuition..fees..room..and.board)
 x = tuition$Year
 y = tuition$Out_Of_State_Tuition
 
@@ -428,6 +361,11 @@ p <- tuition %>%
 p
 ```
 
+The coorelation between minimum wage and tuition was found after observing that both increase every year. A new dataset containing the mean wages for each year was used and correlated with the tuition data set. As seen below, mimimum wage and tuition have a high positive correlation. This means that as tuition increases so does mimimum wage at a similar rate.
+```{r}
+cor(meanwage,tuition$tuition2)
+```
+
 Showing if a realtionship exists between the plots of In State tuition and Out of State tuition
 ```{r}
 ggplot(tuition, aes(x = tuition$Year, y = tuition$tuition3)) + geom_point() + labs(title= "In State Tuition by Academic Year", x = "Academic Year", y="In State Tuition") + theme(axis.text.x = element_text(angle=90, size = 7))
@@ -436,8 +374,8 @@ ggplot(tuition, aes(x = tuition$Year, y = tuition$tuition2)) + geom_point() + la
 ```
 
 After finding the trend in values for in state and out of state tuition based on the above plots, we wanted to see if a prediction model could be used to predict a new value for out of state tuition based on a given value for in state tuition.
-Using the model, we predicted the out of state tuition of of an academic year based on an input in state tuition.
-Since the linear model is very simple to understand and use, the easiest way to predict a value was to use the coefficient estimates from the model. From the linear model we can see how well the data was fitted to the model based on the r-squared of 0.9988.This helped us determine that on on average in state and out of state tuition are linearly related.
+Using the model, we predicted the out of state tuition of an academic year based on a given input value for in state tuition.
+Since the linear model is very simple to understand and use, the easiest way to predict a value was to use the coefficient estimates from the model. From the linear model we can see how well the data was fitted to the model based on the r-squared of 0.9988.This helped us determine that on average in state and out of state tuition are linearly related.
 
 ```{r}
 require(graphics)
